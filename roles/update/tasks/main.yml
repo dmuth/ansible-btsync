@@ -1,5 +1,9 @@
 ---
 
+#
+# Run apt-get update.  This will be good for a month.
+#
 - name: "apt-get update"
-  action: apt update_cache=yes
+  action: apt update_cache=yes cache_valid_time=2592000
+
 
