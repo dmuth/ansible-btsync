@@ -1,0 +1,27 @@
+---
+
+#
+# Our vagrant test host
+#
+- hosts: vagrant-btsync
+  roles: 
+    - update
+    - timezone
+    - btsync
+  user: vagrant
+  sudo: yes
+
+#
+# Production  hosts
+#
+- hosts: nyc1
+  roles: 
+    - { role: user, username: "ubuntu", ssh_key: "digitalocean-dmuth.org.pub" }
+    - update
+    - timezone
+    - btsync
+  user: root
+  sudo: yes
+
+
+

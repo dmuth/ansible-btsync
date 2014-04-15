@@ -1,0 +1,43 @@
+---
+
+- name: Install Btsync Webserver Proxy
+  action: template src=btsync.conf dest=/etc/nginx/sites-available/btsync.conf owner=root backup=yes
+  notify: restart nginx
+
+- name: Create Btsync config symlink
+  action: file src=/etc/nginx/sites-available/btsync.conf dest=/etc/nginx/sites-enabled/btsync state=link
+  notify: restart nginx
+
+- name: Install UFW
+  action: apt package=ufw state=installed
+
+- name: Enable UFW
+  action: ufw state=enabled
+
+- name: UFW allow SSH
+  action: ufw to_port=22 rule=allow
+
+- name: Block port 8888
+  action: ufw to_port=8888 rule=reject
+
+- name: Allow port 8889
+  action: ufw to_port=8889 rule=allow
+
+- name: Deny port 80
+  action: ufw to_port=80 rule=deny
+
+- name: Allow port 443
+  action: ufw to_port=443 rule=allow
+
+- name: Create directory for btsync
+  action: file path=/opt/btsync owner={{ansible_ssh_user}} state=directory mode=0755
+
+- name: Install btsync_x64
+  action: copy src=btsync_x64 dest=/opt/btsync/btsync owner={{ansible_ssh_user}}
+
+- name: Install upstart file
+  action: copy src=btsync.conf dest=/etc/init/
+
+- name: Start btsync service
+  action: service name=btsync state=started
+

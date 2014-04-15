@@ -1,0 +1,18 @@
+---
+#
+# Create a user
+#
+
+- name: "Creating user {{ username }}"
+  action: user name={{ username }} shell=/bin/bash
+
+- name: "Setting permissions on home directory for {{username}}"
+  action: file path=~{{username}} mode=0700 state=directory
+
+- name: "Creating {{username}}/.ssh directory"
+  action: file path=~{{username}}/.ssh mode=0700 state=directory owner={{username}} group={{username}}
+
+- name: "Installing ssh key {{ ssh_key }}"
+  action: copy src={{ssh_key}} dest="~{{username}}/.ssh/authorized_keys" mode=0400 owner={{username}} group={{username}}
+
+

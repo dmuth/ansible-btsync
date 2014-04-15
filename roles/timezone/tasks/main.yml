@@ -1,0 +1,6 @@
+---
+
+- name: "Update timezone"
+  action: command /bin/cp /usr/share/zoneinfo/America/New_York /etc/localtime
+
+

@@ -1,0 +1,11 @@
+---
+
+- name: Install Muning Nginx config
+  action: template src=nginx.conf dest=/etc/nginx/lib/munin.conf owner=root backup=yes
+  notify: restart nginx
+
+- name: Install password file
+  action: template src=htpasswd dest=/etc/nginx/htpasswd owner=root group=web mode=0440 backup=yes
+  notify: restart nginx
+
+

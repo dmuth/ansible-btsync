@@ -1,0 +1,5 @@
+---
+
+- name: Install Munin
+  action: apt package=munin state=present
+

@@ -1,0 +1,5 @@
+---
+
+- name: "apt-get update"
+  action: apt update_cache=yes
+
