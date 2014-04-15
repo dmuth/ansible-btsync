@@ -4,19 +4,21 @@
 # Our vagrant test host
 #
 - hosts: vagrant-btsync
+  user: vagrant
+  sudo: yes
   roles: 
     - update
     - common
     - timezone
     - btsync
-  user: vagrant
-  sudo: yes
 
 #
 # Production  hosts
 # These should be Ubuntu 12.04 x64
 #
-- hosts: nyc1
+- hosts: production
+  user: root
+  sudo: yes
   vars:
      #
      # Replace this ssh key with one for your own $HOME/.ssh/ directory...
@@ -37,8 +39,6 @@
     # Digital Ocean specific things, such as setting up a swap file
     #
     - { role: provider-digital-ocean, tags: "provider" }
-  user: root
-  sudo: yes
 
 
 
