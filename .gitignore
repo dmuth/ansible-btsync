@@ -1,5 +1,10 @@
 
 inventory/production.real
 
-roles/munin-nginx/templates/htpasswd
+roles/nginx/templates/htpasswd
+
+roles/nginx/files/ssl/default.crt
+roles/nginx/files/ssl/default.csr
+roles/nginx/files/ssl/default.key
+
 
