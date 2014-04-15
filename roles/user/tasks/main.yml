@@ -15,4 +15,6 @@
 - name: "Installing ssh key {{ ssh_key }}"
   action: copy src={{ssh_key}} dest="~{{username}}/.ssh/authorized_keys" mode=0400 owner={{username}} group={{username}}
 
+- name: Installing /etc/sudoers
+  action: template src=sudoers dest=/etc/sudoers owner=root group=root mode=0440
 
