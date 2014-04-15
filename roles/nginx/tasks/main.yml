@@ -22,10 +22,12 @@
 
 - name: Install SSL key
   action: copy src=ssl/default.key dest=/etc/nginx/ssl/default-server/default.key owner=root mode=0400 backup=yes
+  notify: restart nginx
   tags: ssl
 
 - name: Install Certificate
   action: copy src=ssl/default.crt dest=/etc/nginx/ssl/default-server/default.crt owner=root mode=0400 backup=yes
+  notify: restart nginx
   tags: ssl
 
 - name: Install Muning Nginx config
