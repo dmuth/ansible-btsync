@@ -21,10 +21,12 @@
   notify: restart nginx
 
 - name: Install SSL key
-  action: template src=ssl/default.key dest=/etc/nginx/ssl/default-server/default.key owner=root mode=0400 backup=yes
+  action: copy src=ssl/default.key dest=/etc/nginx/ssl/default-server/default.key owner=root mode=0400 backup=yes
+  tags: ssl
 
 - name: Install Certificate
-  action: template src=ssl/default.crt dest=/etc/nginx/ssl/default-server/default.crt owner=root mode=0400 backup=yes
+  action: copy src=ssl/default.crt dest=/etc/nginx/ssl/default-server/default.crt owner=root mode=0400 backup=yes
+  tags: ssl
 
 - name: Install Muning Nginx config
   action: template src=munin.conf dest=/etc/nginx/lib/munin.conf owner=root backup=yes
