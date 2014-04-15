@@ -17,10 +17,15 @@
 # These should be Ubuntu 12.04 x64
 #
 - hosts: nyc1
+  vars:
+     #
+     # Replace this ssh key with one for your own $HOME/.ssh/ directory...
+     #
+     ssh_key: digitalocean-dmuth.org.pub
   roles: 
     - update
     - common
-    - { role: user, username: "ubuntu", ssh_key: "digitalocean-dmuth.org.pub" }
+    - { role: user, username: "ubuntu" }
     - timezone
     - { role: btsync, user: "ubuntu" }
   user: root

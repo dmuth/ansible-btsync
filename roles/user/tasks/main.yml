@@ -11,15 +11,18 @@
 
 - name: "Creating {{username}}/.ssh directory"
   action: file path=~{{username}}/.ssh mode=0700 state=directory owner={{username}} group={{username}}
+  tags: ssh
 
 - name: "Installing ssh key {{ ssh_key }}"
   action: copy src={{ssh_key}} dest="~{{username}}/.ssh/authorized_keys" mode=0400 owner={{username}} group={{username}}
-
-- name: Installing /etc/sudoers
-  action: template src=sudoers dest=/etc/sudoers owner=root group=root mode=0440
+  tags: ssh
 
 - name: Installing /etc/ssh/sshd_config
   action: template src=sshd_config dest=/etc/ssh/sshd_config owner=root group=root mode=644
   notify: restart sshd
+  tags: ssh
+
+- name: Installing /etc/sudoers
+  action: template src=sudoers dest=/etc/sudoers owner=root group=root mode=0440
 
 
