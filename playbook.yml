@@ -25,9 +25,18 @@
   roles: 
     - update
     - common
+    #
+    # Create an ubuntu user.  Digital Ocean distros don't have this,
+    # but this isn't part of the DO-specific role, since other cloud
+    # providers may have similar "FrankenLinux" images.
+    #
     - { role: user, username: "ubuntu" }
     - timezone
     - { role: btsync, user: "ubuntu" }
+    #
+    # Digital Ocean specific things, such as setting up a swap file
+    #
+    - { role: provider-digital-ocean, tags: "provider" }
   user: root
   sudo: yes
 

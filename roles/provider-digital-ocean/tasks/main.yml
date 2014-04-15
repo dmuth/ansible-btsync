@@ -1,0 +1,38 @@
+
+
+- name: "Create swapfile {{swapfile}}"
+  action: command dd if=/dev/zero of={{swapfile}} bs=1024 count=256k creates={{swapfile}}
+
+- name: "Swapfile permissions"
+  action: command chmod 600 {{swapfile}} creates=/opt/swapfile-formatted
+
+- name: "Swapfile ownership"
+  action: command chown root:root {{swapfile}} creates=/opt/swapfile-formatted
+
+- name: "Format swapfile {{swapfile}}"
+  action: command mkswap {{swapfile}} creates=/opt/swapfile-formatted
+  
+- name: "Format swapfile, part 2"
+  action: command touch /opt/swapfile-formatted creates=/opt/swapfile-formatted
+
+- name: "Activate swapfile"
+  action: command swapon {{swapfile}} creates=/opt/swapfile-activated
+
+- name: "Activate swapfile, part 2"
+  action: command touch /opt/swapfile-activated creates=/opt/swapfile-activated
+
+- name: "Update /etc/fstab"
+  action: shell echo "/swapfile       none    swap    sw      0       0 " >> /etc/fstab creates=/opt/swapfile-fstab
+
+- name: "Update /etc/fstab, part 2"
+  action: command touch /opt/swapfile-fstab creates=/opt/swapfile-fstab
+
+- name: "Set swappiness"
+  action: shell echo 10 | tee /proc/sys/vm/swappiness creates=/opt/swapfile-swappiness
+
+- name: "Set swappiness, part 2"
+  action: shell echo vm.swappiness = 10 | tee -a /etc/sysctl.conf creates=/opt/swapfile-swappiness
+
+- name: "Set swappiness, part 3"
+  action: command touch /opt/swapfile-swappiness
+
