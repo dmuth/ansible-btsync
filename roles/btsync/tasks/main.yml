@@ -29,6 +29,9 @@
 - name: Allow port 443
   action: ufw to_port=443 rule=allow
 
+- name: Create directory for files
+  action: file path=/home/{{user}}/BTSync owner={{user}} group={{user}} state=directory mode=0700
+
 - name: Create directory for btsync
   action: file path=/opt/btsync owner={{user}} state=directory mode=0755
 
