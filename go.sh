@@ -19,6 +19,9 @@ function print_syntax() {
 }
 
 
+#
+# I can't keep my real password file in revision control, for obvious reasons.
+# 
 DIR="roles/munin-nginx/templates"
 if test ! -f "${DIR}/htpasswd"
 then
@@ -27,24 +30,33 @@ then
 	exit 1
 fi
 
+
 #
-# Parse our arguments
+# All of this insanity is because I can't go through $@ and use shift, 
+# as I need to pass those arguments onto ansible.
+# 
+# I learned *that* the hard way when trying to use -vvvv
 #
-while true
+INVENTORY=""
+INVENTORY_FOUND=""
+for I in $@
 do
 
-	if test ! "$1"
+	if test "$INVENTORY_FOUND"
+	then
+		INVENTORY=$I
+	fi
+
+	if test "$I" == "-i"
+	then
+		INVENTORY_FOUND=1
+	fi
+
+	if test "$INVENTORY"
 	then
 		break
 	fi
 
-	if test "$1" == "-i"
-	then
-		INVENTORY=$2
-		shift
-	fi
-
-	shift
 done
 
 if test ! "$INVENTORY"
@@ -52,6 +64,7 @@ then
 	print_syntax
 fi
 
-ansible-playbook ./playbook.yml -i ${INVENTORY}
+ansible-playbook $@ ./playbook.yml
+
 
 
