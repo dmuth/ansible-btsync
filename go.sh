@@ -22,7 +22,7 @@ function print_syntax() {
 #
 # I can't keep my real password file in revision control, for obvious reasons.
 # 
-DIR="roles/munin-nginx/templates"
+DIR="roles/nginx/templates"
 if test ! -f "${DIR}/htpasswd"
 then
 	echo "You need to create ${DIR}/htpasswd. "
