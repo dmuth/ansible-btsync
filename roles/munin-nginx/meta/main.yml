@@ -1,7 +1,0 @@
----
-
-dependencies:
-  - { role: munin }
-  - { role: nginx }
-
-
