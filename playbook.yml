@@ -6,6 +6,7 @@
 - hosts: vagrant-btsync
   roles: 
     - update
+    - common
     - timezone
     - btsync
   user: vagrant
@@ -13,13 +14,15 @@
 
 #
 # Production  hosts
+# These should be Ubuntu 12.04 x64
 #
 - hosts: nyc1
   roles: 
-    - { role: user, username: "ubuntu", ssh_key: "digitalocean-dmuth.org.pub" }
     - update
+    - common
+    - { role: user, username: "ubuntu", ssh_key: "digitalocean-dmuth.org.pub" }
     - timezone
-    - btsync
+    - { role: btsync, user: "ubuntu" }
   user: root
   sudo: yes
 
