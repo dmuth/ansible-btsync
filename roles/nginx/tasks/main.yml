@@ -26,6 +26,14 @@
 - name: Install Certificate
   action: template src=ssl/default.crt dest=/etc/nginx/ssl/default-server/default.crt owner=root mode=0400 backup=yes
 
+- name: Install Muning Nginx config
+  action: template src=munin.conf dest=/etc/nginx/lib/munin.conf owner=root backup=yes
+  notify: restart nginx
+
+- name: Install password file
+  action: template src=htpasswd dest=/etc/nginx/htpasswd owner=root group=web mode=0440 backup=yes
+  notify: restart nginx
+
 #
 # Not sure if I have to have this here, or if installing any file that 
 # triggers a restart will implicity start nginx. Guess I'll find 
