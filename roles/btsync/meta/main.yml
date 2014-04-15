@@ -1,6 +1,7 @@
 ---
 
 dependencies:
-  - { role: munin-nginx }
+  - { role: nginx }
+  - { role: munin }
 
 
