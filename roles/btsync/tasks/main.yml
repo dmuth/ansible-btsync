@@ -30,13 +30,14 @@
   action: ufw to_port=443 rule=allow
 
 - name: Create directory for btsync
-  action: file path=/opt/btsync owner={{ansible_ssh_user}} state=directory mode=0755
+  action: file path=/opt/btsync owner={{user}} state=directory mode=0755
 
 - name: Install btsync_x64
-  action: copy src=btsync_x64 dest=/opt/btsync/btsync owner={{ansible_ssh_user}}
+  action: copy src=btsync_x64 dest=/opt/btsync/btsync owner={{user}}
 
 - name: Install upstart file
   action: copy src=btsync.conf dest=/etc/init/
+  notify: restart btsync
 
 - name: Start btsync service
   action: service name=btsync state=started
