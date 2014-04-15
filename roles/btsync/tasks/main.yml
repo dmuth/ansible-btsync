@@ -26,7 +26,7 @@
 - name: Deny port 80
   action: ufw to_port=80 rule=deny
 
-- name: Allow port 443
+- name: Deny port 443
   action: ufw to_port=443 rule=deny
 
 - name: Create directory for files
