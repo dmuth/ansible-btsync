@@ -9,7 +9,7 @@
 //
 // A global to keep track of our debugging status
 //
-$debugging = false;
+$debug = false;
 
 /**
 * Print up our syntax and exit.
@@ -85,9 +85,74 @@ function parse_args($argv) {
 
 	}
 
+	//
+	// Sanity check
+	//
+	if (count($retval["files"]) == 0) {
+		print_syntax($argv);
+	}
+
 	return($retval);
 
 } // End of parse_args()
+
+
+/**
+* Function to recursively get the SHA1 of files and directories.
+*
+* @return {string} Our SHA1
+*/
+function get_sha1($file) {
+
+	$retval = "";
+
+	//
+	// Make sure the file/directory is readable, or else we come to 
+	// a FULL STOP.  I felt this was an appropriate way to handle things, 
+	// because you don't want to have the possibility of an unreadable 
+	// file throwing off your hash in an unnoticed manner.
+	//
+	// "We all go home or nobody goes home!"
+	//
+	exists($file);
+
+	if (!is_dir($file)) {
+		debug("File found: $file");
+		$contents = file_get_contents($file);
+		$retval = sha1($contents);
+
+	} else {
+		//
+		// If we found a directory, recurse through its contents
+		//
+		debug("Directory found: $file");
+
+		$hashes = "";
+		$fp = opendir($file);
+
+		while ($line = readdir($fp)) {
+
+			if ($line == "." || $line == "..") {
+				continue;
+			}
+			$target = $file . "/" . $line;
+			$hash = get_sha1($target);
+			$hashes .= $hash . "\n";
+			
+			debug(sprintf("Hash of %s: %s", $target, $hash));
+		}
+
+		debug("Hashes done for directory '$file': $hashes");
+		$retval = sha1($hashes);
+
+		closedir($fp);
+
+	}
+
+	return($retval);
+
+} // End of get_sha1()
+
 
 
 /**
@@ -96,6 +161,15 @@ function parse_args($argv) {
 function main($argv) {
 
 	$params = parse_args($argv);
+
+	foreach ($params["files"] as $key => $value) {
+		$sha1 = get_sha1($value);
+		printf("SHA1 of %40s: %s\n", $value, $sha1);
+		debug("");
+		debug("---");
+		debug("");
+
+	}
 
 } // End of main()
 
