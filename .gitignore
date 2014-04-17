@@ -1,5 +1,5 @@
 
-inventory/production.real
+inventory/production
 
 roles/nginx/templates/htpasswd
 
