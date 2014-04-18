@@ -100,7 +100,7 @@ function parse_args($argv) {
 /**
 * Just a wrapper for ksort()
 */
-function my_ksort($data) {
+function my_ksort(&$data) {
 
 	if (!ksort($data)) {
 		$error = "Unable to ksort()";
