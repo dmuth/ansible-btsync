@@ -127,7 +127,7 @@ function get_sha1($file) {
 		//
 		debug("Directory found: $file");
 
-		$hashes = "";
+		$hashes = array();
 		$fp = opendir($file);
 
 		while ($line = readdir($fp)) {
@@ -137,13 +137,24 @@ function get_sha1($file) {
 			}
 			$target = $file . "/" . $line;
 			$hash = get_sha1($target);
-			$hashes .= $hash . "\n";
+			$hashes[$target] = $hash;
 			
 			debug(sprintf("Hash of %s: %s", $target, $hash));
 		}
 
-		debug("Hashes done for directory '$file': $hashes");
-		$retval = sha1($hashes);
+		if (!ksort($hashes)) {
+			$error = "Unable to ksort()";
+			throw new Exception($error);
+		}
+		debug("Hashes array: " . print_r($hashes, true));
+
+		$hashes_string = "";
+		foreach ($hashes as $key => $value) {
+			$hashes_string .= $value . "\n";
+		}
+
+		debug("Hashes done for directory '$file': $hashes_string");
+		$retval = sha1($hashes_string);
 
 		closedir($fp);
 
