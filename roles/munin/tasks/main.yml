@@ -3,3 +3,10 @@
 - name: Install Munin
   action: apt package=munin state=present
 
+- name: Install Freedisk plugin
+  action: copy src=freedisk dest=/usr/share/munin/plugins/freedisk_ mode=0755
+
+- name: Activate Freedisk plugin
+  action: file src=/usr/share/munin/plugins/freedisk_ dest=/etc/munin/plugins/freedisk_vda state=link
+  notify: restart munin-node
+
