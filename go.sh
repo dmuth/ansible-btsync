@@ -23,11 +23,26 @@ function print_syntax() {
 # I can't keep my real password file in revision control, for obvious reasons.
 # 
 DIR="roles/nginx/templates"
-if test ! -f "${DIR}/htpasswd"
+HTPASSWD="${DIR}/htpasswd"
+if test ! -f "${HTPASSWD}"
 then
-	echo "You need to create ${DIR}/htpasswd. "
-	echo "You can do this with the Apache htpasswd utility!"
-	exit 1
+	echo "#"
+	echo "# Missing password file ${HTPASSWD}!"
+	echo "# Creating one automatically"
+	echo "#"
+
+	PASS="$(( ( RANDOM % 1000 ) + 1))$(( ( RANDOM % 1000 ) + 1))$(( ( RANDOM % 1000 ) + 1))"
+
+	htpasswd -bc ${HTPASSWD} munin ${PASS}
+
+	echo "#"
+	echo "# htpasswd file created"
+	echo "# Login: munin Password: ${PASS}"
+	echo "#"
+	echo "# This is for viewining munin stats at https://SERVER_IP:8889/munin/"
+	echo "# Please make note of the 'https', port number, and trailing slash."
+	echo "#"
+
 fi
 
 
