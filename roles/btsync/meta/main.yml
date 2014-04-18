@@ -1,7 +1,7 @@
 ---
 
 dependencies:
-  - { role: nginx }
+  - { role: nginx, tags: "nginx" }
   - { role: munin, tags: "munin" }
 
 
