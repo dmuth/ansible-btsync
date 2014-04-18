@@ -199,14 +199,21 @@ function main($argv) {
 		throw new Exception($error);
 	}
 
+	$hashes = "";
 	foreach ($params["files"] as $key => $value) {
 		$sha1 = get_sha1($value);
+		$hashes .= $sha1 . "\n";
+
 		printf("SHA1 of %40s: %s\n", $value, $sha1);
+
 		debug("");
 		debug("---");
 		debug("");
 
 	}
+
+	$sha1 = sha1($hashes);
+	printf("SHA1 of %40s: %s\n", "ALL OF THE ABOVE", $sha1);
 
 } // End of main()
 
