@@ -98,6 +98,19 @@ function parse_args($argv) {
 
 
 /**
+* Just a wrapper for ksort()
+*/
+function my_ksort($data) {
+
+	if (!ksort($data)) {
+		$error = "Unable to ksort()";
+		throw new Exception($error);
+	}
+
+} // End of my_ksort()
+
+
+/**
 * Function to recursively get the SHA1 of files and directories.
 *
 * @return {string} Our SHA1
@@ -128,24 +141,34 @@ function get_sha1($file) {
 		debug("Directory found: $file");
 
 		$hashes = array();
+		//
+		// Read in our directory, sort it, then process it
+		//
 		$fp = opendir($file);
+		$files = array();
 
 		while ($line = readdir($fp)) {
-
 			if ($line == "." || $line == "..") {
 				continue;
 			}
-			$target = $file . "/" . $line;
+
+			$files[$line] = true;
+		}
+
+		closedir($fp);
+
+		my_ksort($files);
+
+		foreach ($files as $key => $value) {
+
+			$target = $file . "/" . $key;
 			$hash = get_sha1($target);
 			$hashes[$target] = $hash;
 			
 			debug(sprintf("Hash of %s: %s", $target, $hash));
 		}
 
-		if (!ksort($hashes)) {
-			$error = "Unable to ksort()";
-			throw new Exception($error);
-		}
+		my_ksort($hashes);
 		debug("Hashes array: " . print_r($hashes, true));
 
 		$hashes_string = "";
@@ -155,8 +178,6 @@ function get_sha1($file) {
 
 		debug("Hashes done for directory '$file': $hashes_string");
 		$retval = sha1($hashes_string);
-
-		closedir($fp);
 
 	}
 
