@@ -194,6 +194,11 @@ function main($argv) {
 
 	$params = parse_args($argv);
 
+	if (!sort($params["files"])) {
+		$error = "sort() failed";
+		throw new Exception($error);
+	}
+
 	foreach ($params["files"] as $key => $value) {
 		$sha1 = get_sha1($value);
 		printf("SHA1 of %40s: %s\n", $value, $sha1);
