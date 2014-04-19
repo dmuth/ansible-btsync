@@ -34,7 +34,7 @@
     #
     - { role: user, username: "ubuntu" }
     - timezone
-    - { role: btsync, user: "ubuntu" }
+    - { role: btsync, user: "ubuntu", tags: "btsync" }
     #
     # Digital Ocean specific things, such as setting up a swap file
     #

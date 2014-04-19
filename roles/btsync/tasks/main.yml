@@ -45,3 +45,7 @@
 - name: Start btsync service
   action: service name=btsync state=started
 
+- name: Install PHP5 (for testing checksums manually)
+  action: apt package=php5 state=installed
+
+
