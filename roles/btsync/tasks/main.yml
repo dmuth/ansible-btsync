@@ -48,4 +48,7 @@
 - name: Install PHP5 (for testing checksums manually)
   action: apt package=php5 state=installed
 
+- name: Install sha1sum.php
+  action: copy src=../../../bin/sha1sum.php dest=/home/{{user}}/sha1sum.php mode=0755
+
 
