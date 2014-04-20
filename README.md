@@ -30,7 +30,7 @@ After running this playbook against an instance, the following ports will be aff
 
 First, set up Ansible.  Details for that are beyond the scope of this document.
 
-Now, create 1 or more Digital Ocean droplets, and note their IPs.
+Now, create 1 or more Digital Ocean droplets, and note their IPs.  These droplets **must be Ubuntu 12.04 LTS 64-bit**.
 
 Copy the file `inventory/production.example` to `inventory/production` or similar.  The file should look like this:
 
