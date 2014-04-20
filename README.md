@@ -58,6 +58,9 @@ When done, the recap will be shown:
 
 For the first run, there will be many more changes, but on subsequent ones, you'll see a result similar to this one, with fewer changes.
 
+When the run is complete, connect to `https://YOUR_DIGITAL_OCEAN_DROPLET_IP:8889/`, **set an admin password immediately**, and start adding your BitTorrent Sync keys.
+
+Again--**I cannot stress this enough**--your BitTorrent Sync instance **has no password set by default**.  This is (for the time-being) one manual step you must take.  You will need to set an admin password before using BitTorrent Sync.
 
 ## Testing with cheetahs
 
