@@ -148,7 +148,18 @@ function get_sha1($file) {
 		$files = array();
 
 		while ($line = readdir($fp)) {
+
 			if ($line == "." || $line == "..") {
+				continue;
+			}
+
+			if (preg_match("/^.DS_/", $line)) {
+				debug("Skipping OS/X file: $line");
+				continue;
+			}
+
+			if (preg_match("/^.Sync/", $line)) {
+				debug("Skipping BitTorrent Sync File: $line");
 				continue;
 			}
 
