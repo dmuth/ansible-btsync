@@ -81,11 +81,17 @@ This repo includes a file called `bin/sha1sum.php`.  When Ansible is run, it is 
 If those checksums do not match, something has gone wrong.
 
 
-
 ## Help contribute to this project!
 
 I would be more than happy to add support for VMs from EC2, Rackspace, and other VPS providers.  Just let me know.
 
+
+## Where can this be found?
+
+I currently update this repo on GitHub and BitBucket:
+
+- [https://bitbucket.org/dmuth/ansible-btsync](https://bitbucket.org/dmuth/ansible-btsync)
+- [https://github.com/dmuth/ansible-btsync](https://github.com/dmuth/ansible-btsync)
 
 ## Contact me
 
