@@ -6,7 +6,8 @@
 set -e # Errors are fatal
 #set -x # Debugging
 
-
+ANSIBLE_ARGS=""
+HOSTS=""
 INVENTORY=""
 
 
@@ -17,6 +18,52 @@ function print_syntax() {
 	echo "Syntax: $0 -i ./path/to/inventory"
 	exit 1;
 }
+
+
+#
+# Loop through all of our args and pass them
+#
+function parse_args() {
+
+	while true
+	do
+		#echo "REMAINING: $*" # Debugging
+
+		ARG=$1
+		ARG_NEXT=$2
+
+		if test "$ARG" == "-i"
+		then
+			INVENTORY=$ARG_NEXT
+			ANSIBLE_ARGS="${ANSIBLE_ARGS} -i $ARG_NEXT"
+			shift
+
+		else
+			ANSIBLE_ARGS="${ANSIBLE_ARGS} $ARG"
+
+		fi
+
+		shift
+
+		if test ! "$1"
+		then
+			break
+		fi
+
+	done
+
+	if test "$INVENTORY" != "" -a ! -f "$INVENTORY"
+	then
+		echo "$0: Inventory file ${INVENTORY} not found!"
+		print_syntax
+	fi
+
+	return
+
+} # End of parse_args()
+
+parse_args $@
+#echo "PARSED VARIABLES: $INVENTORY, $HOSTS, $ANSIBLE_ARGS" # Debugging
 
 
 #
@@ -95,40 +142,6 @@ then
 
 fi
 
-#
-# All of this insanity is because I can't go through $@ and use shift, 
-# as I need to pass those arguments onto ansible.
-# 
-# I learned *that* the hard way when trying to use -vvvv
-#
-INVENTORY=""
-INVENTORY_FOUND=""
-for I in $@
-do
-
-	if test "$INVENTORY_FOUND"
-	then
-		INVENTORY=$I
-	fi
-
-	if test "$I" == "-i"
-	then
-		INVENTORY_FOUND=1
-	fi
-
-	if test "$INVENTORY"
-	then
-		break
-	fi
-
-done
-
-if test ! "$INVENTORY"
-then
-	print_syntax
-fi
-
-ansible-playbook $@ ./playbook.yml
-
+ansible-playbook $ANSIBLE_ARGS ./playbook.yml
 
 
