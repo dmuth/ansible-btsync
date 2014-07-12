@@ -8,6 +8,7 @@ set -e # Errors are fatal
 
 ANSIBLE_ARGS=""
 HOSTS=""
+HOST_TYPE=""
 INVENTORY=""
 
 
@@ -15,7 +16,10 @@ INVENTORY=""
 # Print up a syntax diagram and then exit
 #
 function print_syntax() {
-	echo "Syntax: $0 -i ./path/to/inventory"
+	echo "Syntax: $0 -i ./path/to/inventory --host name:ip_or_hostname[:ssh_port[:ssh_private_key]] [--host[...]] "
+	echo "*** "
+	echo "*** If 1 or more hosts are specified, the -i parameter is ignored"
+	echo "*** "
 	exit 1;
 }
 
@@ -38,12 +42,35 @@ function parse_args() {
 			ANSIBLE_ARGS="${ANSIBLE_ARGS} -i $ARG_NEXT"
 			shift
 
+		elif test "$ARG" == "--host"
+		then
+			HOSTS="${HOSTS} $ARG_NEXT"
+			shift
+
+		elif test "$ARG" == "--host-type"
+		then
+			HOST_TYPE="$ARG_NEXT"
+			shift
+
+		elif test "$ARG" == "-h"
+		then
+			print_syntax
+
 		else
+			#
+			# This was meant for Ansible
+			#
 			ANSIBLE_ARGS="${ANSIBLE_ARGS} $ARG"
 
 		fi
 
-		shift
+		#
+		# Shifting when there's nothing to shift would be... bad.
+		#
+		if test "$1"
+		then
+			shift
+		fi
 
 		if test ! "$1"
 		then
@@ -52,13 +79,93 @@ function parse_args() {
 
 	done
 
+	#
+	# Loop through our hosts, grab the data from each one, and write it to an inventory file
+	#
+	if test "$HOSTS"
+	then
+
+		if test "$INVENTORY"
+		then
+			echo "*** "
+			echo "*** Sorry, but you can't specify an inventory AND hosts!"
+			echo "*** "
+			print_syntax
+		fi
+
+		if test ! "$HOST_TYPE"
+		then
+			HOST_TYPE="vagrant"
+		fi
+
+		INVENTORY="`dirname $0`/inventory/temp"
+
+		echo "Writing host type of '${HOST_TYPE}' to '${INVENTORY}'..."
+
+		echo "*** "
+		echo "*** Writing host data to inventory file '$INVENTORY'..."
+		echo "*** "
+		echo "" > $INVENTORY
+		echo "[${HOST_TYPE}]" >> $INVENTORY
+
+		INDEX=0
+		for K in ${HOSTS}
+		do
+
+			if [[ "$K" =~ ":" ]]
+			then
+				NAME=`echo $K | cut -d: -f1`
+				HOST=`echo $K | cut -d: -f2`
+				PORT=`echo $K | cut -d: -f3`
+				SSH_KEY=`echo $K | cut -d: -f4`
+				LINE=""
+
+			else
+				NAME=$K
+
+			fi
+
+			if test "$SSH_KEY"
+			then
+				#echo "FOUND: ssh_key" # Debugging
+				LINE="host_${INDEX} ansible_ssh_host=${HOST} ansible_ssh_port=${PORT} ansible_ssh_private_key_file=${SSH_KEY}"
+
+			elif test "$PORT"
+			then
+				#echo "FOUND: port" # Debugging
+				LINE="host_${INDEX} ansible_ssh_host=${HOST} ansible_ssh_port=${PORT} "
+
+			elif test "$HOST"
+			then
+				#echo "FOUND: else host" # Debugging
+				HOST="127.0.0.1"
+				PORT="2222"
+				SSH_KEY="~/.vagrant.d/insecure_private_key"
+				LINE="host_${INDEX} ansible_ssh_host=${HOST} ansible_ssh_port=${PORT} ansible_ssh_private_key_file=${SSH_KEY}"
+
+			fi
+
+			#echo "LINE: $LINE" # Debugging
+			echo $LINE >> $INVENTORY
+
+			INDEX=$[$INDEX + 1]
+
+		done
+
+		echo ""
+		echo "Contents of '${INVENTORY}':"
+		cat $INVENTORY
+		echo ""
+
+		ANSIBLE_ARGS="${ANSIBLE_ARGS} -i $INVENTORY"
+
+	fi
+
 	if test "$INVENTORY" != "" -a ! -f "$INVENTORY"
 	then
 		echo "$0: Inventory file ${INVENTORY} not found!"
 		print_syntax
 	fi
-
-	return
 
 } # End of parse_args()
 
@@ -142,6 +249,10 @@ then
 
 fi
 
+
+echo "*** "
+echo "*** Running Ansible!"
+echo "*** "
 ansible-playbook $ANSIBLE_ARGS ./playbook.yml
 
 
