@@ -3,7 +3,7 @@
 #
 # Our vagrant test host
 #
-- hosts: vagrant-btsync
+- hosts: vagrant
   user: vagrant
   sudo: yes
   roles: 
