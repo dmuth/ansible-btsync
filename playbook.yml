@@ -10,7 +10,7 @@
     - update
     - common
     - timezone
-    - btsync
+    - { role: btsync, user: "vagrant", tags: "btsync" }
 
 #
 # Production  hosts
