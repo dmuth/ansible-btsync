@@ -14,23 +14,41 @@ This project is an Ansible playbook which can be used to set up BitTorrent Sync-
 - Ubuntu 12.04 LTS, 64-bit installed on each instance to manage
 
 
-## Port usage
-
-After running this playbook against an instance, the following ports will be affectd
-
-- **Port 80** - Blocked
-- **Port 443** - Blocked
-- **Port 8888** - Blocked. This is the default port that btsync uses, but in plaintext.  Very bad.
-- **Port 8889**
-	- This port is opened by this Ansible playbook.  It speaks HTTPS using a self-signed certificate and proxies to localhost:8888.
-	- This port is also used to access Munin for system stats, at **https://the-hostname-or-ip:8889/munin/**
-
-
 ## Installation
 
 First, set up Ansible.  Details for that are beyond the scope of this document.
 
 Now, create 1 or more Digital Ocean droplets, and note their IPs.  These droplets **must be Ubuntu 12.04 LTS 64-bit**.
+
+Also acceptable is creating an Ubuntu 12.04 LTS instance on your own machine using [Vagrant](http://www.vagrantup.com/)
+
+
+## Configuring a host with our Ansible wrapper
+
+
+### The easy way
+
+This involves running the script `go.sh` and specifying the hosts you created on the command line like this:
+
+`./go.sh --host name:ip_address:22:~/.ssh/your_private_key`
+
+What that command does is it writes an inventory file that Ansible will use, then run Ansible against that inventory file.
+
+Here's the syntax for that command:
+
+`( ./go.sh -i ./path/to/inventory | --host name:ip_or_hostname[:ssh_port[:ssh_private_key]] [--host[…]] )`
+
+Multiple hosts may be specified, and if any of the components are left off defaults are assumed.  Here are some examples:
+
+- `./go.sh --host test:127.0.0.1:2222:~/.vagrant.d/insecure_private_key`
+   - Run Ansible against a vagrant instance
+- `./go.sh --host test4:localhost`
+   - Run Ansible against your Vagrant instance, as the --host argument has defaults of port 2222 and the Vagrant private key
+- `./go.sh --host test:whatever.digitalocean.com:22:~/.ssh/digital-ocean
+   - Run Ansible against the Digital Ocean instance you created
+   
+   
+### The Hard Way
 
 Copy the file `inventory/production.example` to `inventory/production` or similar.  The file should look like this:
 
@@ -40,7 +58,12 @@ Copy the file `inventory/production.example` to `inventory/production` or simila
 
 For each Droplet you created, add a line which includes the IP address of that host, and the path to your private key file.
 
-Finally, run the wrapper script: `./go.sh -i ./inventory/production`  If succesful, you'll see lines like this:
+Finally, run the wrapper script: `./go.sh -i ./inventory/production`  
+
+
+## Success!
+
+If succesful, you'll see lines like this:
 
 ![Starting Ansible](images/ansible-start.png)
 
@@ -82,6 +105,18 @@ This repo includes a file called `bin/sha1sum.php`.  When Ansible is run, it is 
     SHA1 of                         ALL OF THE ABOVE: 4f67535322f45323a5fa0bf6a693a2c79885a008
 
 If those checksums do not match, something has gone wrong.
+
+
+## Port usage
+
+After running this playbook against an instance, the following ports will be affectd
+
+- **Port 80** - Blocked
+- **Port 443** - Blocked
+- **Port 8888** - Blocked. This is the default port that btsync uses, but in plaintext.  Very bad.
+- **Port 8889**
+	- This port is opened by this Ansible playbook.  It speaks HTTPS using a self-signed certificate and proxies to localhost:8888.
+	- This port is also used to access Munin for system stats, at **https://the-hostname-or-ip:8889/munin/**
 
 
 ## Help contribute to this project!
