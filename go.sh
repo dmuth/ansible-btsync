@@ -16,7 +16,7 @@ INVENTORY=""
 # Print up a syntax diagram and then exit
 #
 function print_syntax() {
-	echo "Syntax: $0 ( -i ./path/to/inventory | --host name:ip_or_hostname[:ssh_port[:ssh_private_key]] [--host[...]] ) "
+	echo "Syntax: $0 ( -i ./path/to/inventory | --host name:ip_or_hostname[:ssh_private_key[:ssh_port]] [--host[...]] ) "
 	echo "*** "
 	echo "*** If 1 or more hosts are specified, the -i parameter is ignored"
 	echo "*** "
@@ -116,8 +116,8 @@ function parse_args() {
 			then
 				NAME=`echo $K | cut -d: -f1`
 				HOST=`echo $K | cut -d: -f2`
-				PORT=`echo $K | cut -d: -f3`
-				SSH_KEY=`echo $K | cut -d: -f4`
+				SSH_KEY=`echo $K | cut -d: -f3`
+				PORT=`echo $K | cut -d: -f4`
 				LINE=""
 
 			else
@@ -125,19 +125,27 @@ function parse_args() {
 
 			fi
 
-			if test "$SSH_KEY"
-			then
-				#echo "FOUND: ssh_key" # Debugging
-				LINE="host_${INDEX} ansible_ssh_host=${HOST} ansible_ssh_port=${PORT} ansible_ssh_private_key_file=${SSH_KEY}"
-
-			elif test "$PORT"
+			if test "$PORT"
 			then
 				#echo "FOUND: port" # Debugging
-				LINE="host_${INDEX} ansible_ssh_host=${HOST} ansible_ssh_port=${PORT} "
+				LINE="host_${INDEX} ansible_ssh_host=${HOST} ansible_ssh_port=${PORT} ansible_ssh_private_key_file=${SSH_KEY} "
+
+			elif test "$SSH_KEY"
+			then
+				#echo "FOUND: ssh_key" # Debugging
+				PORT="22"
+				LINE="host_${INDEX} ansible_ssh_host=${HOST} ansible_ssh_port=${PORT} ansible_ssh_private_key_file=${SSH_KEY}"
 
 			elif test "$HOST"
 			then
-				#echo "FOUND: else host" # Debugging
+				#echo "FOUND: host" # Debugging
+				#HOST="127.0.0.1"
+				PORT="22"
+				SSH_KEY="~/.ssh/id_rsa"
+				LINE="host_${INDEX} ansible_ssh_host=${HOST} ansible_ssh_port=${PORT} ansible_ssh_private_key_file=${SSH_KEY}"
+
+			else
+				#echo "FOUND: else" # Debugging
 				HOST="127.0.0.1"
 				PORT="2222"
 				SSH_KEY="~/.vagrant.d/insecure_private_key"
