@@ -16,7 +16,7 @@ INVENTORY=""
 # Print up a syntax diagram and then exit
 #
 function print_syntax() {
-	echo "Syntax: $0 -i ./path/to/inventory --host name:ip_or_hostname[:ssh_port[:ssh_private_key]] [--host[...]] "
+	echo "Syntax: $0 ( -i ./path/to/inventory | --host name:ip_or_hostname[:ssh_port[:ssh_private_key]] [--host[...]] ) "
 	echo "*** "
 	echo "*** If 1 or more hosts are specified, the -i parameter is ignored"
 	echo "*** "
