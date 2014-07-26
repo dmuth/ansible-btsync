@@ -128,13 +128,13 @@ function parse_args() {
 			if test "$PORT"
 			then
 				#echo "FOUND: port" # Debugging
-				LINE="host_${INDEX} ansible_ssh_host=${HOST} ansible_ssh_port=${PORT} ansible_ssh_private_key_file=${SSH_KEY} "
+				LINE="host_${INDEX} ansible_ssh_host=${HOST} ansible_ssh_port=${PORT} ansible_ssh_user=root ansible_ssh_private_key_file=${SSH_KEY} "
 
 			elif test "$SSH_KEY"
 			then
 				#echo "FOUND: ssh_key" # Debugging
 				PORT="22"
-				LINE="host_${INDEX} ansible_ssh_host=${HOST} ansible_ssh_port=${PORT} ansible_ssh_private_key_file=${SSH_KEY}"
+				LINE="host_${INDEX} ansible_ssh_host=${HOST} ansible_ssh_port=${PORT} ansible_ssh_user=root ansible_ssh_private_key_file=${SSH_KEY}"
 
 			elif test "$HOST"
 			then
@@ -142,14 +142,14 @@ function parse_args() {
 				#HOST="127.0.0.1"
 				PORT="22"
 				SSH_KEY="~/.ssh/id_rsa"
-				LINE="host_${INDEX} ansible_ssh_host=${HOST} ansible_ssh_port=${PORT} ansible_ssh_private_key_file=${SSH_KEY}"
+				LINE="host_${INDEX} ansible_ssh_host=${HOST} ansible_ssh_port=${PORT} ansible_ssh_user=root ansible_ssh_private_key_file=${SSH_KEY}"
 
 			else
 				#echo "FOUND: else" # Debugging
 				HOST="127.0.0.1"
 				PORT="2222"
 				SSH_KEY="~/.vagrant.d/insecure_private_key"
-				LINE="host_${INDEX} ansible_ssh_host=${HOST} ansible_ssh_port=${PORT} ansible_ssh_private_key_file=${SSH_KEY}"
+				LINE="host_${INDEX} ansible_ssh_host=${HOST} ansible_ssh_port=${PORT} ansible_ssh_user=root ansible_ssh_private_key_file=${SSH_KEY}"
 
 			fi
 
