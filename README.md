@@ -59,9 +59,9 @@ Multiple hosts may be specified, and if any of the components are left off defau
 
 - `./go.sh --host test:127.0.0.1~/.vagrant.d/insecure_private_key:2222`
    - Run Ansible against a vagrant instance
-- `./go.sh --host test4`
+- `./go.sh --host test4 # --host type defaults to vagrant, BTW`
    - Run Ansible against your Vagrant instance, as the --host argument has defaults of host 127.0.0.1, port 2222, and the Vagrant private key
-- `./go.sh --host test:whatever.digitalocean.com:~/.ssh/digital-ocean`
+- `./go.sh --host-type production --host test:whatever.digitalocean.com:~/.ssh/digital-ocean`
    - Run Ansible against the Digital Ocean instance you created with the public key you set up for Digital Ocean. (you do use different public keys for different machines, right?)
    
    
