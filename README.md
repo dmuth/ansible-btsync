@@ -18,9 +18,26 @@ This project is an Ansible playbook which can be used to set up BitTorrent Sync-
 
 First, set up Ansible.  Details for that are beyond the scope of this document.
 
-Now, create 1 or more Digital Ocean droplets, and note their IPs.  These droplets **must be Ubuntu 12.04 LTS 64-bit**.
+
+### Creating Digital Ocean Droplets: The Easy Way
+
+Create 1 or more Digital Ocean droplets through their admin interface, and note their IPs.  These droplets **must be Ubuntu 12.04 LTS 64-bit**.
 
 Also acceptable is creating an Ubuntu 12.04 LTS instance on your own machine using [Vagrant](http://www.vagrantup.com/)
+
+
+### Creating Ditigital Ocean Droplets: The Way That Scales
+
+1. Install [Tugboat](https://github.com/pearkes/tugboat)
+1. Set up a v1 API key on Digitial Ocean and tell Tugboat about your key by typing `tugboat authorize`.
+1. Run this command: `tugboat create test3 -s 66 -i 3101045 -r 4 -k YOUR_SSH_KEY_ID`
+    - `-s` specifies the size.  66 is the 512 MB instance
+    - `-i` specifies the image.  We're using Ubuntu 12.04 LTS.
+    - `-r` specifies the region. Region 4 is NYC2.
+    - `-k` is your SSH key id. To get a list of your SSH keys, type `tugboat keys`.
+
+Repeat the last step as many times as necessary to create the required number of instances.
+
 
 
 ## Configuring a host with our Ansible wrapper
