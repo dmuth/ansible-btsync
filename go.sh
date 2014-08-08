@@ -112,6 +112,9 @@ function parse_args() {
 		for K in ${HOSTS}
 		do
 
+			#
+			# Parse our colon-delimited string and grab its hostname, SSH key, etc.
+			#
 			if [[ "$K" =~ ":" ]]
 			then
 				NAME=`echo $K | cut -d: -f1`
@@ -125,33 +128,32 @@ function parse_args() {
 
 			fi
 
-			if test "$PORT"
-			then
-				#echo "FOUND: port" # Debugging
-				LINE="host_${INDEX} ansible_ssh_host=${HOST} ansible_ssh_port=${PORT} ansible_ssh_user=root ansible_ssh_private_key_file=${SSH_KEY} "
+			ANSIBLE_USER="root"
 
-			elif test "$SSH_KEY"
+			if test "$SSH_KEY"
 			then
 				#echo "FOUND: ssh_key" # Debugging
 				PORT="22"
-				LINE="host_${INDEX} ansible_ssh_host=${HOST} ansible_ssh_port=${PORT} ansible_ssh_user=root ansible_ssh_private_key_file=${SSH_KEY}"
 
 			elif test "$HOST"
 			then
 				#echo "FOUND: host" # Debugging
-				#HOST="127.0.0.1"
 				PORT="22"
 				SSH_KEY="~/.ssh/id_rsa"
-				LINE="host_${INDEX} ansible_ssh_host=${HOST} ansible_ssh_port=${PORT} ansible_ssh_user=root ansible_ssh_private_key_file=${SSH_KEY}"
 
 			else
+				#
+				# Nothing was found, so default to the local Vagrant instance on port 2222.
+				#
 				#echo "FOUND: else" # Debugging
 				HOST="127.0.0.1"
 				PORT="2222"
 				SSH_KEY="~/.vagrant.d/insecure_private_key"
-				LINE="host_${INDEX} ansible_ssh_host=${HOST} ansible_ssh_port=${PORT} ansible_ssh_user=root ansible_ssh_private_key_file=${SSH_KEY}"
+				ANSIBLE_USER="vagrant"
 
 			fi
+
+			LINE="host_${INDEX} ansible_ssh_host=${HOST} ansible_ssh_port=${PORT} ansible_ssh_user=${ANSIBLE_USER} ansible_ssh_private_key_file=${SSH_KEY}"
 
 			#echo "LINE: $LINE" # Debugging
 			echo $LINE >> $INVENTORY
