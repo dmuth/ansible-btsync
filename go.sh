@@ -16,7 +16,7 @@ INVENTORY=""
 # Print up a syntax diagram and then exit
 #
 function print_syntax() {
-	echo "Syntax: $0 ( -i ./path/to/inventory | --host name:ip_or_hostname[:ssh_private_key[:ssh_port]] [--host[...]] ) "
+	echo "Syntax: $0 ( -i ./path/to/inventory | --host ip_or_hostname[:ssh_private_key[:ssh_port]] [--host[...]] ) "
 	echo "*** "
 	echo "*** If 1 or more hosts are specified, the -i parameter is ignored"
 	echo "*** "
@@ -45,11 +45,6 @@ function parse_args() {
 		elif test "$ARG" == "--host"
 		then
 			HOSTS="${HOSTS} $ARG_NEXT"
-			shift
-
-		elif test "$ARG" == "--host-type"
-		then
-			HOST_TYPE="$ARG_NEXT"
 			shift
 
 		elif test "$ARG" == "-h"
@@ -93,44 +88,54 @@ function parse_args() {
 			print_syntax
 		fi
 
-		if test ! "$HOST_TYPE"
-		then
-			HOST_TYPE="vagrant"
-		fi
-
 		INVENTORY="`dirname $0`/inventory/temp"
-
-		echo "Writing host type of '${HOST_TYPE}' to '${INVENTORY}'..."
 
 		echo "*** "
 		echo "*** Writing host data to inventory file '$INVENTORY'..."
 		echo "*** "
 		echo "" > $INVENTORY
-		echo "[${HOST_TYPE}]" >> $INVENTORY
 
 		INDEX=0
 		for K in ${HOSTS}
 		do
 
 			#
+			# Default to a production host type, but it will be overriden for Vagrant
+			#
+			HOST_TYPE="production"
+
+			#
 			# Parse our colon-delimited string and grab its hostname, SSH key, etc.
 			#
 			if [[ "$K" =~ ":" ]]
 			then
-				NAME=`echo $K | cut -d: -f1`
-				HOST=`echo $K | cut -d: -f2`
-				SSH_KEY=`echo $K | cut -d: -f3`
-				PORT=`echo $K | cut -d: -f4`
+				HOST=`echo $K | cut -d: -f1`
+				SSH_KEY=`echo $K | cut -d: -f2`
+				PORT=`echo $K | cut -d: -f3`
 				LINE=""
 
-			else
-				NAME=$K
+			elif test "$K"
+			then
+				HOST=$K
 
 			fi
 
+			echo "K: $K" # Debugging
+			echo "Parts: $HOST:$SSH_KEY:$PORT" # Debugging
 			ANSIBLE_USER="root"
 
-			if test "$SSH_KEY"
+			if test "$HOST" == "vagrant"
+			then
+				#
+				# Special case for a vagrant instance.
+				#
+				HOST="127.0.0.1"
+				PORT="2222"
+				SSH_KEY="~/.vagrant.d/insecure_private_key"
+				ANSIBLE_USER="vagrant"
+				HOST_TYPE="vagrant"
+
+			elif test "$SSH_KEY"
 			then
 				#echo "FOUND: ssh_key" # Debugging
 				PORT="22"
@@ -141,19 +146,17 @@ function parse_args() {
 				PORT="22"
 				SSH_KEY="~/.ssh/id_rsa"
 
-			else
-				#
-				# Nothing was found, so default to the local Vagrant instance on port 2222.
-				#
-				#echo "FOUND: else" # Debugging
-				HOST="127.0.0.1"
-				PORT="2222"
-				SSH_KEY="~/.vagrant.d/insecure_private_key"
-				ANSIBLE_USER="vagrant"
-
 			fi
 
 			LINE="host_${INDEX} ansible_ssh_host=${HOST} ansible_ssh_port=${PORT} ansible_ssh_user=${ANSIBLE_USER} ansible_ssh_private_key_file=${SSH_KEY}"
+
+			#
+			# Only write out our host type on the first pass
+			#
+			if test "$INDEX" == 0
+			then
+				echo "[${HOST_TYPE}]" >> $INVENTORY
+			fi
 
 			#echo "LINE: $LINE" # Debugging
 			echo $LINE >> $INVENTORY

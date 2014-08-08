@@ -47,21 +47,19 @@ Repeat the last step as many times as necessary to create the required number of
 
 This involves running the script `go.sh` and specifying the hosts you created on the command line like this:
 
-`./go.sh --host name:ip_address:~/.ssh/your_private_key:22`
+`./go.sh --host p_address:~/.ssh/your_private_key:22`
 
 What that command does is it writes an inventory file that Ansible will use, then run Ansible against that inventory file.
 
 Here's the syntax for that command:
 
-`( ./go.sh -i ./path/to/inventory | --host name:ip_or_hostname[:ssh_private_key[:ssh_port]] [--host[…]] )`
+`( ./go.sh -i ./path/to/inventory | --host ip_or_hostname[:ssh_private_key[:ssh_port]] [--host[…]] )`
 
 Multiple hosts may be specified, and if any of the components are left off defaults are assumed.  Here are some examples:
 
-- `./go.sh --host test:127.0.0.1~/.vagrant.d/insecure_private_key:2222`
-   - Run Ansible against a vagrant instance
-- `./go.sh --host test4 # --host type defaults to vagrant, BTW`
-   - Run Ansible against your Vagrant instance, as the --host argument has defaults of host 127.0.0.1, port 2222, and the Vagrant private key
-- `./go.sh --host-type production --host test:whatever.digitalocean.com:~/.ssh/digital-ocean`
+- `./go.sh --host vagrant`
+   - Run Ansible against a vagrant instance. The hostname, port, and SSH keyfile are all set accordingly.
+- `./go.sh --host test:whatever.digitalocean.com:~/.ssh/digital-ocean`
    - Run Ansible against the Digital Ocean instance you created with the public key you set up for Digital Ocean. (you do use different public keys for different machines, right?)
    
    
