@@ -1,5 +1,11 @@
 ---
 
+#
+# Digital Ocean started running Apache by default on their Ubuntu 12.04 LTS instances...
+#
+#- name: Stop Apache
+#  service: name=apache2 state=stopped enabled=no
+
 - name: Create web user
   action: user name=web comment="Web user" home=/var/www/
 
@@ -11,6 +17,9 @@
 
 - name: Create /etc/nginx/ssl/default-server
   action: file path=/etc/nginx/ssl/default-server state=directory
+
+- name: Start nginx
+  service: name=nginx state=started enabled=yes
 
 - name: Install Nginx Config
   action: template src=nginx.conf dest=/etc/nginx/nginx.conf owner=root backup=yes
