@@ -12,6 +12,11 @@ inventory/temp
 .vagrant
 
 #
+# Vim droppings
+#
+*.swp
+
+#
 # Ignore all Splunk packages, but not the Splunk role
 #
 splunk*
