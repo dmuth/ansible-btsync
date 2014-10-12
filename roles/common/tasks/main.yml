@@ -6,6 +6,9 @@
 - name: Install fail2ban
   action: apt pkg=fail2ban state=present
 
+- name: Install curl
+  action: apt pkg=curl state=present
+
 - name: Start fail2ban
   action: service name=fail2ban state=started
 
