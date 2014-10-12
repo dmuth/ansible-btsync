@@ -6,11 +6,17 @@
 - hosts: vagrant
   user: vagrant
   sudo: yes
+  vars:
+     #
+     # The default key that Vagrant uses
+     #
+     ssh_key: ~/.vagrant.d/insecure_private_key 
   roles: 
     - update
     - common
     - timezone
-    - { role: btsync, user: "vagrant", tags: "btsync" }
+    - { role: user, username: "ubuntu" }
+    - { role: btsync, user: "ubuntu", tags: "btsync" }
 
 #
 # Production  hosts
