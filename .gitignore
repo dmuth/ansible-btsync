@@ -11,3 +11,8 @@ inventory/temp
 
 .vagrant
 
+#
+# Ignore all Splunk packages
+#
+splunk*
+
