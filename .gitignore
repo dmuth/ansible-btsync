@@ -12,7 +12,8 @@ inventory/temp
 .vagrant
 
 #
-# Ignore all Splunk packages
+# Ignore all Splunk packages, but not the Splunk role
 #
 splunk*
+!roles/splunk/
 
