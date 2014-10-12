@@ -17,16 +17,16 @@
 - name: UFW allow SSH
   action: ufw to_port=22 rule=allow
 
-- name: Block port 8888
+- name: Drop port 8888 so the outside world cant get into BTSync
   action: ufw to_port=8888 rule=reject
 
-- name: Allow port 8889
+- name: Allow port 8889 as a hidden HTTPS port for BTSync
   action: ufw to_port=8889 rule=allow
 
-- name: Deny port 80
+- name: Drop traffic on port 80
   action: ufw to_port=80 rule=deny
 
-- name: Deny port 443
+- name: Drop traffic on port 443
   action: ufw to_port=443 rule=deny
 
 - name: Create directory for files
