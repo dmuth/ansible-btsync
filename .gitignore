@@ -9,3 +9,5 @@ roles/nginx/files/ssl/default.key
 
 inventory/temp
 
+.vagrant
+
