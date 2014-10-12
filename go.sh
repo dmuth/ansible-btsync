@@ -213,13 +213,18 @@ then
 fi
 
 
+#
+# Autogenerate SSL keyfiles the first run.
+#
 SSL_DIR="roles/nginx/files/ssl/"
 SSL_CRT="${SSL_DIR}/default.crt"
 SSL_KEY="${SSL_DIR}/default.key"
 SSL_CSR="${SSL_DIR}/default.csr"
 if test ! -f $SSL_KEY
 then
-	echo "SSL key not found in ${SSL_KEY}, auto-generating a new self-signed key..."
+	echo "#"
+	echo "#"
+	echo "# SSL key not found in ${SSL_KEY}, auto-generating a new self-signed key..."
 
 	echo "#"
 	echo "#"
@@ -260,6 +265,28 @@ then
 	echo "#"
 	echo "#"
 
+fi
+
+#
+# Check for a Splunk deb file.
+# 
+if test ! -f "splunk.deb"
+then
+	echo "# "
+	echo "# "
+	echo "# Unable to find splunk.deb."
+	echo "# You can download a copy of Splunk Enterprise from: "
+	echo "#		http://www.splunk.com/download "
+	echo "# "
+	echo "# Once you have a 64-bit .deb file, copy it to this directory. "
+	echo "# I recommend that you then symlink \"splunk.deb\" to it. "
+	echo "# "
+	echo "# Don't worry about cost, you can use Splunk for free for "
+	echo "# up to 500 MB of data per day. Splunk is cool like that. :-) "
+	echo "# "
+	echo "# (And you should totally buy their product for the workplace. It's worth every penny.) "
+	echo "# "
+	exit 1	
 fi
 
 
