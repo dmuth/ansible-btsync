@@ -21,6 +21,14 @@ Vagrant.configure("2") do |config|
 		btsync.vm.network :forwarded_port, guest: 8888, host: 8888
 		btsync.vm.network :forwarded_port, guest: 8889, host: 8889
 
+		#
+		# Set the amount of RAM and CPU cores
+		#
+		btsync.vm.provider "virtualbox" do |v|
+			v.memory = 512
+			v.cpus = 2
+		end
+
 	end
 
 end
