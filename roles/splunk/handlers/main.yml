@@ -1,0 +1,4 @@
+- name: restart splunk
+  service: name=splunk state=restarted
+  ignore_errors: true
+

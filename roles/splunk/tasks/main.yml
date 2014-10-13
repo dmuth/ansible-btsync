@@ -1,0 +1,24 @@
+---
+
+- name: Allow port 8000 for Splunk
+  action: ufw to_port=8000 rule=allow
+
+- name: Set up a symlink from /var/splunk/ to Splunk install
+  action: file src=/opt/splunk dest=/var/splunk state=link force=yes
+
+- name: Install Splunk
+  action: shell dpkg -i /vagrant/splunk.deb creates=/opt/splunk
+  register: splunk_result
+
+- name: Copying in script to start Splunk for the first time
+  action: copy src=start_splunk.sh dest=/home/{{user}} owner={{user}}
+
+- name: Install web.conf
+  action: copy src=web.conf dest=/opt/splunk/etc/system/local
+  notify: restart splunk
+
+- name: Install inputs.conf
+  action: copy src=inputs.conf dest=/opt/splunk/etc/system/local
+  notify: restart splunk
+
+
