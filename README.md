@@ -16,7 +16,17 @@ This project is an Ansible playbook which can be used to set up BitTorrent Sync-
 
 ## Installation
 
-First, set up Ansible.  Details for that are beyond the scope of this document.
+First, set up [Ansible](http://www.ansible.com/home).  
+Details for that are beyond the scope of this document.
+
+
+### First step, getting started with Vagrant
+
+Before trying things out on Digital Ocean, why not test things out in [Vagrant](http://www.vagrantup.com/) first?  The quickest way to get installed with Vagrant is to run the following:
+
+`vagrant up && ./go.sh -i ./inventory/vagrant`
+
+After a few minutes, you'll have a machine running BitTorrent Sync.  You can then access BTSync at `https://localhost:8889/`
 
 
 ### Creating Digital Ocean Droplets: The Easy Way
@@ -128,10 +138,20 @@ After running this playbook against an instance, the following ports will be aff
 
 - **Port 80** - Blocked
 - **Port 443** - Blocked
+- **Port 8000** - SplunkWeb via HTTPS
 - **Port 8888** - Blocked. This is the default port that btsync uses, but in plaintext.  Very bad.
 - **Port 8889**
 	- This port is opened by this Ansible playbook.  It speaks HTTPS using a self-signed certificate and proxies to localhost:8888.
 	- This port is also used to access Munin for system stats, at **https://the-hostname-or-ip:8889/munin/**
+
+
+## Bonus: Splunk
+
+If you want to analyze the BitTorrent Sync logfiles with Splunk, you'll need to start up Splunk and agree to the Terms and Conditions.  To start Splunk, SSH into the host and type:
+
+`./start_splunk.sh`
+
+Once you run this scrippt, Spluk will listen on https://hostname:8000/ and it will index /var/log/syslog, which is where BitTorrent Sync writes its logs.
 
 
 ## Help contribute to this project!
