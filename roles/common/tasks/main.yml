@@ -12,3 +12,7 @@
 - name: Start fail2ban
   action: service name=fail2ban state=started
 
+- name: Install vim
+  action: apt pkg=vim state=present
+
+
