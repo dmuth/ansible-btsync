@@ -17,6 +17,7 @@
     - timezone
     - { role: user, username: "ubuntu" }
     - { role: btsync, user: "ubuntu", tags: "btsync" }
+    - { role: splunk, user: "vagrant", tags: "splunk" }
 
 #
 # Production  hosts
