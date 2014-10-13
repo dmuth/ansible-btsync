@@ -290,9 +290,9 @@ then
 fi
 
 
-echo "*** "
-echo "*** Running Ansible!"
-echo "*** "
+echo "# "
+echo "# Running Ansible!"
+echo "# "
 ansible-playbook $ANSIBLE_ARGS ./playbook.yml
 
 
