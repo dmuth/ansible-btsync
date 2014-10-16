@@ -14,7 +14,6 @@
   roles: 
     - update
     - common
-    - timezone
     - { role: user, username: "ubuntu" }
     - { role: btsync, user: "ubuntu", tags: "btsync" }
     - { role: splunk, user: "vagrant", tags: "splunk" }
@@ -40,7 +39,6 @@
     # providers may have similar "FrankenLinux" images.
     #
     - { role: user, username: "ubuntu" }
-    - timezone
     - { role: btsync, user: "ubuntu", tags: "btsync" }
     #
     # Digital Ocean specific things, such as setting up a swap file
