@@ -3,6 +3,9 @@
 
 Vagrant.configure("2") do |config|
 
+	#
+	# Cache anything we download with apt-get
+	#
 	if Vagrant.has_plugin?("vagrant-cachier")
 		config.cache.scope = :box
 	end
@@ -27,6 +30,13 @@ Vagrant.configure("2") do |config|
 		btsync.vm.provider "virtualbox" do |v|
 			v.memory = 512
 			v.cpus = 2
+		end
+
+		#
+		# Updating the plugins at start time never ends well.
+		#
+		if Vagrant.has_plugin?("vagrant-vbguest")
+			config.vbguest.auto_update = false
 		end
 
 	end
