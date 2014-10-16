@@ -1,3 +1,8 @@
+
+#
+# Note that this might not work the first time.  That's because you need to SSH in
+# and run start_splunk.sh and agree to their license.
+#
 - name: restart splunk
   service: name=splunk state=restarted
   ignore_errors: true
