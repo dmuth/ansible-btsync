@@ -16,12 +16,24 @@ Vagrant.configure("2") do |config|
 		btsync.vm.box_url = "http://files.vagrantup.com/precise64.box"
 
 		#
-		# Port forwarding
+		# Drop both of these, as we have no need for web traffic
 		#
 		btsync.vm.network :forwarded_port, guest: 80, host: 8080
 		btsync.vm.network :forwarded_port, guest: 443, host: 8443
+
+		#
+ 		# Splunk HTTPS
+		#
 		btsync.vm.network :forwarded_port, guest: 8000, host: 8000
+
+		#
+		# Drop HTTP to BTSync
+		#
 		btsync.vm.network :forwarded_port, guest: 8888, host: 8888
+
+		#
+		# BTSync HTTPS wrapper
+		#
 		btsync.vm.network :forwarded_port, guest: 8889, host: 8889
 
 		#
