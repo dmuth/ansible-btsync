@@ -1,22 +1,19 @@
 ---
 
 #
-# Our vagrant test host
+# Our vagrant test hosts
 #
 - hosts: vagrant
   user: vagrant
   sudo: yes
   vars:
-     #
-     # The default key that Vagrant uses
-     #
-     ssh_key: ~/.vagrant.d/insecure_private_key 
   roles: 
     - update
     - common
-    - { role: user, username: "ubuntu" }
+    - { role: user, username: "ubuntu", tags: "user" }
     - { role: btsync, user: "ubuntu", tags: "btsync" }
     - { role: splunk, user: "vagrant", tags: "splunk" }
+
 
 #
 # Production  hosts
@@ -26,10 +23,6 @@
   user: root
   sudo: yes
   vars:
-     #
-     # Replace this ssh key with one for your own $HOME/.ssh/ directory...
-     #
-     ssh_key: digitalocean-dmuth.org.pub
   roles: 
     - update
     - common
@@ -38,7 +31,7 @@
     # but this isn't part of the DO-specific role, since other cloud
     # providers may have similar "FrankenLinux" images.
     #
-    - { role: user, username: "ubuntu" }
+    - { role: user, username: "ubuntu", tags: "user" }
     - { role: btsync, user: "ubuntu", tags: "btsync" }
     #
     # Digital Ocean specific things, such as setting up a swap file
