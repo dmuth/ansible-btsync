@@ -267,6 +267,27 @@ then
 
 fi
 
+
+#
+# Extract our Vagrant public key from the private key so that 
+# we can put that into the Ubuntu user on Vagrant instances.
+#
+KEYFILE="$HOME/.vagrant.d/insecure_private_key"
+KEYFILE_PUB="$HOME/.vagrant.d/insecure_private_key.pub"
+if test ! -f ${KEYFILE_PUB}
+then
+	echo "#"
+	echo "#"
+	echo "# Public Vagrant key doesn't exist, creating it!"
+	echo "#"
+	echo "#"
+	ssh-keygen -y -f ${KEYFILE} > ${KEYFILE_PUB}
+	echo "#"
+	echo "# Vagrant public key written in ${KEYFILE_PUB}!"
+	echo "#"
+fi
+
+
 #
 # Check for a Splunk deb file.
 # 
