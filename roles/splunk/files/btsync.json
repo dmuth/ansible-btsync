@@ -1,0 +1,1248 @@
+{
+    "modelName": "btsync",
+    "displayName": "btsync",
+    "description": "",
+    "objectSummary": {
+        "Event-Based": 13,
+        "Transaction-Based": 0,
+        "Search-Based": 0
+    },
+    "objects": [
+        {
+            "objectName": "btsync_event",
+            "displayName": "btsync",
+            "parentName": "BaseEvent",
+            "fields": [
+                {
+                    "fieldName": "_time",
+                    "owner": "BaseEvent",
+                    "type": "timestamp",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "_time",
+                    "comment": "",
+                    "fieldSearch": ""
+                },
+                {
+                    "fieldName": "host",
+                    "owner": "BaseEvent",
+                    "type": "string",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "host",
+                    "comment": "",
+                    "fieldSearch": ""
+                },
+                {
+                    "fieldName": "source",
+                    "owner": "BaseEvent",
+                    "type": "string",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "source",
+                    "comment": "",
+                    "fieldSearch": ""
+                },
+                {
+                    "fieldName": "sourcetype",
+                    "owner": "BaseEvent",
+                    "type": "string",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "sourcetype",
+                    "comment": "",
+                    "fieldSearch": ""
+                }
+            ],
+            "calculations": [],
+            "constraints": [
+                {
+                    "search": "index=\"main\" btsync:",
+                    "owner": "btsync_event"
+                }
+            ],
+            "lineage": "btsync_event"
+        },
+        {
+            "objectName": "error",
+            "displayName": "error",
+            "parentName": "btsync_event",
+            "fields": [
+                {
+                    "fieldName": "_time",
+                    "owner": "BaseEvent",
+                    "type": "timestamp",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "_time",
+                    "comment": "",
+                    "fieldSearch": ""
+                },
+                {
+                    "fieldName": "host",
+                    "owner": "BaseEvent",
+                    "type": "string",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "host",
+                    "comment": "",
+                    "fieldSearch": ""
+                },
+                {
+                    "fieldName": "source",
+                    "owner": "BaseEvent",
+                    "type": "string",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "source",
+                    "comment": "",
+                    "fieldSearch": ""
+                },
+                {
+                    "fieldName": "sourcetype",
+                    "owner": "BaseEvent",
+                    "type": "string",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "sourcetype",
+                    "comment": "",
+                    "fieldSearch": ""
+                }
+            ],
+            "calculations": [],
+            "constraints": [
+                {
+                    "search": "error",
+                    "owner": "btsync_event.error"
+                }
+            ],
+            "lineage": "btsync_event.error"
+        },
+        {
+            "objectName": "blocking_peer",
+            "displayName": "blocking_peer",
+            "parentName": "btsync_event",
+            "fields": [
+                {
+                    "fieldName": "_time",
+                    "owner": "BaseEvent",
+                    "type": "timestamp",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "_time",
+                    "comment": "",
+                    "fieldSearch": ""
+                },
+                {
+                    "fieldName": "host",
+                    "owner": "BaseEvent",
+                    "type": "string",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "host",
+                    "comment": "",
+                    "fieldSearch": ""
+                },
+                {
+                    "fieldName": "source",
+                    "owner": "BaseEvent",
+                    "type": "string",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "source",
+                    "comment": "",
+                    "fieldSearch": ""
+                },
+                {
+                    "fieldName": "sourcetype",
+                    "owner": "BaseEvent",
+                    "type": "string",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "sourcetype",
+                    "comment": "",
+                    "fieldSearch": ""
+                }
+            ],
+            "calculations": [
+                {
+                    "outputFields": [
+                        {
+                            "fieldName": "ip",
+                            "owner": "btsync_event.blocking_peer",
+                            "type": "string",
+                            "required": false,
+                            "multivalue": false,
+                            "hidden": false,
+                            "editable": true,
+                            "displayName": "ip",
+                            "comment": "",
+                            "fieldSearch": ""
+                        }
+                    ],
+                    "inputField": "_raw",
+                    "calculationID": "x69l9jfm08p8pvi",
+                    "owner": "btsync_event.blocking_peer",
+                    "editable": true,
+                    "comment": "",
+                    "calculationType": "Rex",
+                    "expression": "btsync: (?<ip>[0-9\\.]+):"
+                }
+            ],
+            "constraints": [
+                {
+                    "search": "\"blocking peer\"",
+                    "owner": "btsync_event.blocking_peer"
+                }
+            ],
+            "lineage": "btsync_event.blocking_peer"
+        },
+        {
+            "objectName": "error_colon",
+            "displayName": "error:",
+            "parentName": "error",
+            "fields": [
+                {
+                    "fieldName": "_time",
+                    "owner": "BaseEvent",
+                    "type": "timestamp",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "_time",
+                    "comment": "",
+                    "fieldSearch": ""
+                },
+                {
+                    "fieldName": "host",
+                    "owner": "BaseEvent",
+                    "type": "string",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "host",
+                    "comment": "",
+                    "fieldSearch": ""
+                },
+                {
+                    "fieldName": "source",
+                    "owner": "BaseEvent",
+                    "type": "string",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "source",
+                    "comment": "",
+                    "fieldSearch": ""
+                },
+                {
+                    "fieldName": "sourcetype",
+                    "owner": "BaseEvent",
+                    "type": "string",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "sourcetype",
+                    "comment": "",
+                    "fieldSearch": ""
+                }
+            ],
+            "calculations": [
+                {
+                    "outputFields": [
+                        {
+                            "fieldName": "file",
+                            "owner": "btsync_event.error.error_colon",
+                            "type": "string",
+                            "required": false,
+                            "multivalue": false,
+                            "hidden": false,
+                            "editable": true,
+                            "displayName": "file",
+                            "comment": "",
+                            "fieldSearch": ""
+                        },
+                        {
+                            "fieldName": "error",
+                            "owner": "btsync_event.error.error_colon",
+                            "type": "string",
+                            "required": false,
+                            "multivalue": false,
+                            "hidden": false,
+                            "editable": true,
+                            "displayName": "error",
+                            "comment": "",
+                            "fieldSearch": ""
+                        }
+                    ],
+                    "inputField": "_raw",
+                    "calculationID": "13zgqn10qlpaatt9",
+                    "owner": "btsync_event.error.error_colon",
+                    "editable": true,
+                    "comment": "",
+                    "calculationType": "Rex",
+                    "expression": "Error: (?<file>.*) - (?<error>.*)"
+                }
+            ],
+            "constraints": [
+                {
+                    "search": "error:",
+                    "owner": "btsync_event.error.error_colon"
+                }
+            ],
+            "lineage": "btsync_event.error.error_colon"
+        },
+        {
+            "objectName": "torrentfile_colon",
+            "displayName": "torrentfile:",
+            "parentName": "error",
+            "fields": [
+                {
+                    "fieldName": "_time",
+                    "owner": "BaseEvent",
+                    "type": "timestamp",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "_time",
+                    "comment": "",
+                    "fieldSearch": ""
+                },
+                {
+                    "fieldName": "host",
+                    "owner": "BaseEvent",
+                    "type": "string",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "host",
+                    "comment": "",
+                    "fieldSearch": ""
+                },
+                {
+                    "fieldName": "source",
+                    "owner": "BaseEvent",
+                    "type": "string",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "source",
+                    "comment": "",
+                    "fieldSearch": ""
+                },
+                {
+                    "fieldName": "sourcetype",
+                    "owner": "BaseEvent",
+                    "type": "string",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "sourcetype",
+                    "comment": "",
+                    "fieldSearch": ""
+                }
+            ],
+            "calculations": [
+                {
+                    "outputFields": [
+                        {
+                            "fieldName": "action",
+                            "owner": "btsync_event.error.torrentfile_colon",
+                            "type": "string",
+                            "required": false,
+                            "multivalue": false,
+                            "hidden": false,
+                            "editable": true,
+                            "displayName": "action",
+                            "comment": "",
+                            "fieldSearch": ""
+                        },
+                        {
+                            "fieldName": "file",
+                            "owner": "btsync_event.error.torrentfile_colon",
+                            "type": "string",
+                            "required": false,
+                            "multivalue": false,
+                            "hidden": false,
+                            "editable": true,
+                            "displayName": "file",
+                            "comment": "",
+                            "fieldSearch": ""
+                        },
+                        {
+                            "fieldName": "error",
+                            "owner": "btsync_event.error.torrentfile_colon",
+                            "type": "string",
+                            "required": false,
+                            "multivalue": false,
+                            "hidden": false,
+                            "editable": true,
+                            "displayName": "error",
+                            "comment": "",
+                            "fieldSearch": ""
+                        }
+                    ],
+                    "inputField": "_raw",
+                    "calculationID": "nogft9evpcnjnhfr",
+                    "owner": "btsync_event.error.torrentfile_colon",
+                    "editable": true,
+                    "comment": "",
+                    "calculationType": "Rex",
+                    "expression": "(?<action>failed to.+) \\\"(?<file>.+)\\\".*error = (?<error>.*)"
+                }
+            ],
+            "constraints": [
+                {
+                    "search": "torrentfile:",
+                    "owner": "btsync_event.error.torrentfile_colon"
+                }
+            ],
+            "lineage": "btsync_event.error.torrentfile_colon"
+        },
+        {
+            "objectName": "error_downloading",
+            "displayName": "error downloading",
+            "parentName": "error",
+            "fields": [
+                {
+                    "fieldName": "_time",
+                    "owner": "BaseEvent",
+                    "type": "timestamp",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "_time",
+                    "comment": "",
+                    "fieldSearch": ""
+                },
+                {
+                    "fieldName": "host",
+                    "owner": "BaseEvent",
+                    "type": "string",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "host",
+                    "comment": "",
+                    "fieldSearch": ""
+                },
+                {
+                    "fieldName": "source",
+                    "owner": "BaseEvent",
+                    "type": "string",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "source",
+                    "comment": "",
+                    "fieldSearch": ""
+                },
+                {
+                    "fieldName": "sourcetype",
+                    "owner": "BaseEvent",
+                    "type": "string",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "sourcetype",
+                    "comment": "",
+                    "fieldSearch": ""
+                }
+            ],
+            "calculations": [
+                {
+                    "outputFields": [
+                        {
+                            "fieldName": "file",
+                            "owner": "btsync_event.error.error_downloading",
+                            "type": "string",
+                            "required": false,
+                            "multivalue": false,
+                            "hidden": false,
+                            "editable": true,
+                            "displayName": "file",
+                            "comment": "",
+                            "fieldSearch": ""
+                        },
+                        {
+                            "fieldName": "error",
+                            "owner": "btsync_event.error.error_downloading",
+                            "type": "string",
+                            "required": false,
+                            "multivalue": false,
+                            "hidden": false,
+                            "editable": true,
+                            "displayName": "error",
+                            "comment": "",
+                            "fieldSearch": ""
+                        }
+                    ],
+                    "inputField": "_raw",
+                    "calculationID": "0mxrqsty802g9zfr",
+                    "owner": "btsync_event.error.error_downloading",
+                    "editable": true,
+                    "comment": "",
+                    "calculationType": "Rex",
+                    "expression": "file (?<file>.*): (?<error>[^:]+:.*)"
+                }
+            ],
+            "constraints": [
+                {
+                    "search": "\"error downloading\"",
+                    "owner": "btsync_event.error.error_downloading"
+                }
+            ],
+            "lineage": "btsync_event.error.error_downloading"
+        },
+        {
+            "objectName": "incoming",
+            "displayName": "incoming",
+            "parentName": "btsync_event",
+            "fields": [
+                {
+                    "fieldName": "_time",
+                    "owner": "BaseEvent",
+                    "type": "timestamp",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "_time",
+                    "comment": "",
+                    "fieldSearch": ""
+                },
+                {
+                    "fieldName": "host",
+                    "owner": "BaseEvent",
+                    "type": "string",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "host",
+                    "comment": "",
+                    "fieldSearch": ""
+                },
+                {
+                    "fieldName": "source",
+                    "owner": "BaseEvent",
+                    "type": "string",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "source",
+                    "comment": "",
+                    "fieldSearch": ""
+                },
+                {
+                    "fieldName": "sourcetype",
+                    "owner": "BaseEvent",
+                    "type": "string",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "sourcetype",
+                    "comment": "",
+                    "fieldSearch": ""
+                }
+            ],
+            "calculations": [
+                {
+                    "outputFields": [
+                        {
+                            "fieldName": "ip",
+                            "owner": "btsync_event.incoming",
+                            "type": "string",
+                            "required": false,
+                            "multivalue": false,
+                            "hidden": false,
+                            "editable": true,
+                            "displayName": "ip",
+                            "comment": "",
+                            "fieldSearch": ""
+                        }
+                    ],
+                    "inputField": "_raw",
+                    "calculationID": "jvlcdr8ob2wqaor",
+                    "owner": "btsync_event.incoming",
+                    "editable": true,
+                    "comment": "",
+                    "calculationType": "Rex",
+                    "expression": "connection from (?<ip>.*):"
+                }
+            ],
+            "constraints": [
+                {
+                    "search": "\"incoming\"",
+                    "owner": "btsync_event.incoming"
+                }
+            ],
+            "lineage": "btsync_event.incoming"
+        },
+        {
+            "objectName": "piece_complete",
+            "displayName": "piece complete",
+            "parentName": "btsync_event",
+            "fields": [
+                {
+                    "fieldName": "_time",
+                    "owner": "BaseEvent",
+                    "type": "timestamp",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "_time",
+                    "comment": "",
+                    "fieldSearch": ""
+                },
+                {
+                    "fieldName": "host",
+                    "owner": "BaseEvent",
+                    "type": "string",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "host",
+                    "comment": "",
+                    "fieldSearch": ""
+                },
+                {
+                    "fieldName": "source",
+                    "owner": "BaseEvent",
+                    "type": "string",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "source",
+                    "comment": "",
+                    "fieldSearch": ""
+                },
+                {
+                    "fieldName": "sourcetype",
+                    "owner": "BaseEvent",
+                    "type": "string",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "sourcetype",
+                    "comment": "",
+                    "fieldSearch": ""
+                }
+            ],
+            "calculations": [
+                {
+                    "outputFields": [
+                        {
+                            "fieldName": "file",
+                            "owner": "btsync_event.piece_complete",
+                            "type": "string",
+                            "required": false,
+                            "multivalue": false,
+                            "hidden": false,
+                            "editable": true,
+                            "displayName": "file",
+                            "comment": "",
+                            "fieldSearch": ""
+                        },
+                        {
+                            "fieldName": "message",
+                            "owner": "btsync_event.piece_complete",
+                            "type": "string",
+                            "required": false,
+                            "multivalue": false,
+                            "hidden": false,
+                            "editable": true,
+                            "displayName": "message",
+                            "comment": "",
+                            "fieldSearch": ""
+                        }
+                    ],
+                    "inputField": "_raw",
+                    "calculationID": "vt72ymlylsg7gb9",
+                    "owner": "btsync_event.piece_complete",
+                    "editable": true,
+                    "comment": "",
+                    "calculationType": "Rex",
+                    "expression": "btsync: (?<file>.*): (?<message>.*)"
+                }
+            ],
+            "constraints": [
+                {
+                    "search": "\": piece\" \"complete\"",
+                    "owner": "btsync_event.piece_complete"
+                }
+            ],
+            "lineage": "btsync_event.piece_complete"
+        },
+        {
+            "objectName": "upnp",
+            "displayName": "upnp",
+            "parentName": "btsync_event",
+            "fields": [
+                {
+                    "fieldName": "_time",
+                    "owner": "BaseEvent",
+                    "type": "timestamp",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "_time",
+                    "comment": "",
+                    "fieldSearch": ""
+                },
+                {
+                    "fieldName": "host",
+                    "owner": "BaseEvent",
+                    "type": "string",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "host",
+                    "comment": "",
+                    "fieldSearch": ""
+                },
+                {
+                    "fieldName": "source",
+                    "owner": "BaseEvent",
+                    "type": "string",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "source",
+                    "comment": "",
+                    "fieldSearch": ""
+                },
+                {
+                    "fieldName": "sourcetype",
+                    "owner": "BaseEvent",
+                    "type": "string",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "sourcetype",
+                    "comment": "",
+                    "fieldSearch": ""
+                }
+            ],
+            "calculations": [],
+            "constraints": [
+                {
+                    "search": "upnp:",
+                    "owner": "btsync_event.upnp"
+                }
+            ],
+            "lineage": "btsync_event.upnp"
+        },
+        {
+            "objectName": "unable_to_map_port",
+            "displayName": "unable to map port",
+            "parentName": "upnp",
+            "fields": [
+                {
+                    "fieldName": "_time",
+                    "owner": "BaseEvent",
+                    "type": "timestamp",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "_time",
+                    "comment": "",
+                    "fieldSearch": ""
+                },
+                {
+                    "fieldName": "host",
+                    "owner": "BaseEvent",
+                    "type": "string",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "host",
+                    "comment": "",
+                    "fieldSearch": ""
+                },
+                {
+                    "fieldName": "source",
+                    "owner": "BaseEvent",
+                    "type": "string",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "source",
+                    "comment": "",
+                    "fieldSearch": ""
+                },
+                {
+                    "fieldName": "sourcetype",
+                    "owner": "BaseEvent",
+                    "type": "string",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "sourcetype",
+                    "comment": "",
+                    "fieldSearch": ""
+                }
+            ],
+            "calculations": [
+                {
+                    "outputFields": [
+                        {
+                            "fieldName": "ip",
+                            "owner": "btsync_event.upnp.unable_to_map_port",
+                            "type": "string",
+                            "required": false,
+                            "multivalue": false,
+                            "hidden": false,
+                            "editable": true,
+                            "displayName": "ip",
+                            "comment": "",
+                            "fieldSearch": ""
+                        },
+                        {
+                            "fieldName": "port",
+                            "owner": "btsync_event.upnp.unable_to_map_port",
+                            "type": "string",
+                            "required": false,
+                            "multivalue": false,
+                            "hidden": false,
+                            "editable": true,
+                            "displayName": "port",
+                            "comment": "",
+                            "fieldSearch": ""
+                        }
+                    ],
+                    "inputField": "_raw",
+                    "calculationID": "baxmvwtws15opqfr",
+                    "owner": "btsync_event.upnp.unable_to_map_port",
+                    "editable": true,
+                    "comment": "",
+                    "calculationType": "Rex",
+                    "expression": "Unable to map port (?<ip>.*):(?<port>[0-9]+) with"
+                }
+            ],
+            "constraints": [
+                {
+                    "search": "Unable to map port",
+                    "owner": "btsync_event.upnp.unable_to_map_port"
+                }
+            ],
+            "lineage": "btsync_event.upnp.unable_to_map_port"
+        },
+        {
+            "objectName": "piece_0",
+            "displayName": "piece 0",
+            "parentName": "piece_complete",
+            "fields": [
+                {
+                    "fieldName": "_time",
+                    "owner": "BaseEvent",
+                    "type": "timestamp",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "_time",
+                    "comment": "",
+                    "fieldSearch": ""
+                },
+                {
+                    "fieldName": "host",
+                    "owner": "BaseEvent",
+                    "type": "string",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "host",
+                    "comment": "",
+                    "fieldSearch": ""
+                },
+                {
+                    "fieldName": "source",
+                    "owner": "BaseEvent",
+                    "type": "string",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "source",
+                    "comment": "",
+                    "fieldSearch": ""
+                },
+                {
+                    "fieldName": "sourcetype",
+                    "owner": "BaseEvent",
+                    "type": "string",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "sourcetype",
+                    "comment": "",
+                    "fieldSearch": ""
+                }
+            ],
+            "calculations": [],
+            "constraints": [
+                {
+                    "search": ": piece 0",
+                    "owner": "btsync_event.piece_complete.piece_0"
+                }
+            ],
+            "lineage": "btsync_event.piece_complete.piece_0"
+        },
+        {
+            "objectName": "error_mesages",
+            "displayName": "error mesages",
+            "parentName": "error",
+            "fields": [
+                {
+                    "fieldName": "_time",
+                    "owner": "BaseEvent",
+                    "type": "timestamp",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "_time",
+                    "comment": "",
+                    "fieldSearch": ""
+                },
+                {
+                    "fieldName": "host",
+                    "owner": "BaseEvent",
+                    "type": "string",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "host",
+                    "comment": "",
+                    "fieldSearch": ""
+                },
+                {
+                    "fieldName": "source",
+                    "owner": "BaseEvent",
+                    "type": "string",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "source",
+                    "comment": "",
+                    "fieldSearch": ""
+                },
+                {
+                    "fieldName": "sourcetype",
+                    "owner": "BaseEvent",
+                    "type": "string",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "sourcetype",
+                    "comment": "",
+                    "fieldSearch": ""
+                }
+            ],
+            "calculations": [
+                {
+                    "outputFields": [
+                        {
+                            "fieldName": "file1",
+                            "owner": "btsync_event.error.error_mesages",
+                            "type": "string",
+                            "required": false,
+                            "multivalue": false,
+                            "hidden": true,
+                            "editable": true,
+                            "displayName": "file1",
+                            "comment": "",
+                            "fieldSearch": ""
+                        },
+                        {
+                            "fieldName": "error1",
+                            "owner": "btsync_event.error.error_mesages",
+                            "type": "string",
+                            "required": false,
+                            "multivalue": false,
+                            "hidden": true,
+                            "editable": true,
+                            "displayName": "error1",
+                            "comment": "",
+                            "fieldSearch": ""
+                        }
+                    ],
+                    "inputField": "_raw",
+                    "calculationID": "2dd9uumug26xyldi",
+                    "owner": "btsync_event.error.error_mesages",
+                    "editable": true,
+                    "comment": "",
+                    "calculationType": "Rex",
+                    "expression": "Error: (?<file1>.*) - (?<error1>.*)"
+                },
+                {
+                    "outputFields": [
+                        {
+                            "fieldName": "action",
+                            "owner": "btsync_event.error.error_mesages",
+                            "type": "string",
+                            "required": false,
+                            "multivalue": false,
+                            "hidden": true,
+                            "editable": true,
+                            "displayName": "action",
+                            "comment": "",
+                            "fieldSearch": ""
+                        },
+                        {
+                            "fieldName": "file2",
+                            "owner": "btsync_event.error.error_mesages",
+                            "type": "string",
+                            "required": false,
+                            "multivalue": false,
+                            "hidden": true,
+                            "editable": true,
+                            "displayName": "file2",
+                            "comment": "",
+                            "fieldSearch": ""
+                        },
+                        {
+                            "fieldName": "error2",
+                            "owner": "btsync_event.error.error_mesages",
+                            "type": "string",
+                            "required": false,
+                            "multivalue": false,
+                            "hidden": true,
+                            "editable": true,
+                            "displayName": "error2",
+                            "comment": "",
+                            "fieldSearch": ""
+                        }
+                    ],
+                    "inputField": "_raw",
+                    "calculationID": "oldcd7agqup7gb9",
+                    "owner": "btsync_event.error.error_mesages",
+                    "editable": true,
+                    "comment": "",
+                    "calculationType": "Rex",
+                    "expression": "(?<action>failed to.+) \\\"(?<file2>.+)\\\".*error = (?<error2>.*)"
+                },
+                {
+                    "outputFields": [
+                        {
+                            "fieldName": "file3",
+                            "owner": "btsync_event.error.error_mesages",
+                            "type": "string",
+                            "required": false,
+                            "multivalue": false,
+                            "hidden": true,
+                            "editable": true,
+                            "displayName": "file3",
+                            "comment": "",
+                            "fieldSearch": ""
+                        },
+                        {
+                            "fieldName": "error3",
+                            "owner": "btsync_event.error.error_mesages",
+                            "type": "string",
+                            "required": false,
+                            "multivalue": false,
+                            "hidden": true,
+                            "editable": true,
+                            "displayName": "error3",
+                            "comment": "",
+                            "fieldSearch": ""
+                        }
+                    ],
+                    "inputField": "_raw",
+                    "calculationID": "8dmqctv4py6tj4i",
+                    "owner": "btsync_event.error.error_mesages",
+                    "editable": true,
+                    "comment": "",
+                    "calculationType": "Rex",
+                    "expression": "file (?<file3>.*): (?<error3>[^:]+:.*)"
+                },
+                {
+                    "outputFields": [
+                        {
+                            "fieldName": "error",
+                            "owner": "btsync_event.error.error_mesages",
+                            "type": "string",
+                            "required": false,
+                            "multivalue": false,
+                            "hidden": false,
+                            "editable": true,
+                            "displayName": "error",
+                            "comment": "",
+                            "fieldSearch": ""
+                        }
+                    ],
+                    "calculationID": "mdmv8yxocdptx1or",
+                    "owner": "btsync_event.error.error_mesages",
+                    "editable": true,
+                    "comment": "",
+                    "calculationType": "Eval",
+                    "expression": "case(error != \"\", error, error2 != \"\", error2, error3 != \"\", error3)"
+                },
+                {
+                    "outputFields": [
+                        {
+                            "fieldName": "file",
+                            "owner": "btsync_event.error.error_mesages",
+                            "type": "string",
+                            "required": false,
+                            "multivalue": false,
+                            "hidden": false,
+                            "editable": true,
+                            "displayName": "file",
+                            "comment": "",
+                            "fieldSearch": ""
+                        }
+                    ],
+                    "calculationID": "nqz85hslx72e29",
+                    "owner": "btsync_event.error.error_mesages",
+                    "editable": true,
+                    "comment": "",
+                    "calculationType": "Eval",
+                    "expression": "case(file != \"\", file, file2 != \"\", file2, file3 != \"\", file3)"
+                }
+            ],
+            "constraints": [
+                {
+                    "search": "",
+                    "owner": "btsync_event.error.error_mesages"
+                }
+            ],
+            "lineage": "btsync_event.error.error_mesages"
+        },
+        {
+            "objectName": "error_messages",
+            "displayName": "error messages",
+            "parentName": "error_mesages",
+            "fields": [
+                {
+                    "fieldName": "_time",
+                    "owner": "BaseEvent",
+                    "type": "timestamp",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "_time",
+                    "comment": "",
+                    "fieldSearch": ""
+                },
+                {
+                    "fieldName": "host",
+                    "owner": "BaseEvent",
+                    "type": "string",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "host",
+                    "comment": "",
+                    "fieldSearch": ""
+                },
+                {
+                    "fieldName": "source",
+                    "owner": "BaseEvent",
+                    "type": "string",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "source",
+                    "comment": "",
+                    "fieldSearch": ""
+                },
+                {
+                    "fieldName": "sourcetype",
+                    "owner": "BaseEvent",
+                    "type": "string",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "sourcetype",
+                    "comment": "",
+                    "fieldSearch": ""
+                }
+            ],
+            "calculations": [],
+            "constraints": [
+                {
+                    "search": "",
+                    "owner": "btsync_event.error.error_mesages.error_messages"
+                }
+            ],
+            "lineage": "btsync_event.error.error_mesages.error_messages"
+        }
+    ],
+    "objectNameList": [
+        "btsync_event",
+        "error",
+        "blocking_peer",
+        "error_colon",
+        "torrentfile_colon",
+        "error_downloading",
+        "incoming",
+        "piece_complete",
+        "upnp",
+        "unable_to_map_port",
+        "piece_0",
+        "error_mesages",
+        "error_messages"
+    ]
+}
