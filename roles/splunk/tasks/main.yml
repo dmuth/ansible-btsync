@@ -23,10 +23,6 @@
 - name: Set up users directories
   action: file path=/opt/splunk/etc/users/admin/search/local/data/models state=directory
 
-- name: Install datamodels.conf
-  action: copy src=datamodels.conf dest=/opt/splunk/etc/users/admin/search/local/datamodels.conf
-  notify: restart splunk
-
 - name: Install btsync.json
   action: copy src=btsync.json dest=/opt/splunk/etc/users/admin/search/local/data/models/bysync.json
   notify: restart splunk
