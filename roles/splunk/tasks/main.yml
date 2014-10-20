@@ -29,6 +29,16 @@
   notify: restart splunk
   when: splunk_forwarders is defined
 
+- name: Install Forwarder inputs.conf
+  action: copy src=forwarder/inputs.conf dest=/opt/splunk/etc/system/local
+  notify: restart splunk
+  when: splunk_indexer is defined
+
+- name: Install Forwarder outputs.conf
+  action: copy src=forwarder/outputs.conf dest=/opt/splunk/etc/system/local
+  notify: restart splunk
+  when: splunk_indexer is defined
+
 - name: Set up users/ directory
   action: file path=/opt/splunk/etc/users/admin/search/local/data/models state=directory
 
