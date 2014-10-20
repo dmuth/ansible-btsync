@@ -17,6 +17,7 @@ Vagrant.configure("2") do |config|
 
 		host.vm.box = "precise64"
 		host.vm.box_url = "http://files.vagrantup.com/precise64.box"
+		host.vm.hostname = "main"
 		host.vm.network "private_network", ip: "10.0.10.101"
 
 		#
@@ -55,6 +56,7 @@ Vagrant.configure("2") do |config|
 
 		host.vm.box = "precise64"
 		host.vm.box_url = "http://files.vagrantup.com/precise64.box"
+		host.vm.hostname = "forwarder"
 		host.vm.network "private_network", ip: "10.0.10.102"
 
 		#
