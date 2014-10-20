@@ -31,6 +31,11 @@ Vagrant.configure("2") do |config|
 		host.vm.network :forwarded_port, guest: 8889, host: 8889
 
 		#
+		# BTSync HTTPS wrapper
+		#
+		host.vm.network :forwarded_port, guest: 9997, host: 9997
+
+		#
 		# Set the amount of RAM and CPU cores
 		#
 		host.vm.provider "virtualbox" do |v|
