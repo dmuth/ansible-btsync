@@ -1,0 +1,16 @@
+#
+# These variables are used for all Vagrant instances.
+#
+ansible_ssh_port: 22
+ansible_ssh_user: vagrant
+
+#
+# The default private key that comes with Vagrant
+#
+ansible_ssh_private_key_file: ~/.vagrant.d/insecure_private_key
+
+#
+# This is extracted from the insecure_private_key file by go.sh on the first run
+#
+ansible_ssh_public_key_file: ~/.vagrant.d/insecure_private_key.pub 
+

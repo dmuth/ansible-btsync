@@ -1,9 +1,13 @@
 
 [vagrant]
-#vagrant-btsync ansible_ssh_host=127.0.0.1 ansible_ssh_port=2222 ansible_ssh_private_key_file=~/.vagrant.d/insecure_private_key ansible_ssh_user=vagrant
-vagrant-btsync-main ansible_ssh_host=10.0.10.101 ansible_ssh_port=22 ansible_ssh_private_key_file=~/.vagrant.d/insecure_private_key ansible_ssh_user=vagrant ansible_ssh_public_key_file=~/.vagrant.d/insecure_private_key.pub
-vagrant-btsync-forwarder ansible_ssh_host=10.0.10.102 ansible_ssh_port=22 ansible_ssh_private_key_file=~/.vagrant.d/insecure_private_key ansible_ssh_user=vagrant ansible_ssh_public_key_file=~/.vagrant.d/insecure_private_key.pub
+#
+# Our main instance, which runs BitTorrent Sync, the Splunk Indexer and Search Head
+#
+vagrant-btsync-main ansible_ssh_host=10.0.10.101 splunk_forwarders="10.0.2.102"
 
-
+#
+# A second instance, which runs BitTorrent Sync, and a Splunk forwarder.
+#
+vagrant-btsync-forwarder ansible_ssh_host=10.0.10.102 splunk_indexer="10.0.2.101"
 
 

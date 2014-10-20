@@ -1,5 +1,6 @@
 
 inventory/production
+group_vars/production
 
 roles/nginx/templates/htpasswd
 
