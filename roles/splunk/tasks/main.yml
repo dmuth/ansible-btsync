@@ -10,21 +10,21 @@
   action: shell dpkg -i /vagrant/splunk.deb creates=/opt/splunk
 
 - name: Copying in script to start Splunk for the first time
-  action: copy src=start_splunk.sh dest=/home/{{user}} owner={{user}}
+  action: copy src=bin/start_splunk.sh dest=/home/{{user}} owner={{user}}
 
 - name: Install web.conf
-  action: copy src=web.conf dest=/opt/splunk/etc/system/local
+  action: copy src=indexer/web.conf dest=/opt/splunk/etc/system/local
   notify: restart splunk
 
 - name: Install inputs.conf
-  action: copy src=inputs.conf dest=/opt/splunk/etc/system/local
+  action: copy src=indexer/inputs.conf dest=/opt/splunk/etc/system/local
   notify: restart splunk
 
-- name: Set up users directories
+- name: Set up users/ directory
   action: file path=/opt/splunk/etc/users/admin/search/local/data/models state=directory
 
 - name: Install btsync.json
-  action: copy src=btsync.json dest=/opt/splunk/etc/users/admin/search/local/data/models/bysync.json
+  action: copy src=indexer/btsync.json dest=/opt/splunk/etc/users/admin/search/local/data/models/bysync.json
   notify: restart splunk
 
 
