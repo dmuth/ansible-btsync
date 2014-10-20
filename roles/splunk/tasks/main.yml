@@ -1,7 +1,12 @@
 ---
 
-- name: Allow port 8000 for Splunk
+- name: Allow port 8000 for Splunk Search Head
   action: ufw to_port=8000 rule=allow
+  when: splunk_forwarders is defined
+
+- name: Allow port 9997 for Splunk Indexer
+  action: ufw to_port=9997 rule=allow
+  when: splunk_forwarders is defined
 
 - name: Set up a symlink from /var/splunk/ to Splunk install
   action: file src=/opt/splunk dest=/var/splunk state=link force=yes
@@ -12,13 +17,17 @@
 - name: Copying in script to start Splunk for the first time
   action: copy src=bin/start_splunk.sh dest=/home/{{user}} owner={{user}}
 
+#
+# Start of Splunk config files
+#
 - name: Install web.conf
   action: copy src=indexer/web.conf dest=/opt/splunk/etc/system/local
   notify: restart splunk
 
-- name: Install inputs.conf
+- name: Install Indexer inputs.conf
   action: copy src=indexer/inputs.conf dest=/opt/splunk/etc/system/local
   notify: restart splunk
+  when: splunk_forwarders is defined
 
 - name: Set up users/ directory
   action: file path=/opt/splunk/etc/users/admin/search/local/data/models state=directory
