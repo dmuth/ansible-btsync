@@ -4,3 +4,14 @@
 ansible_ssh_private_key_file: ~/.ssh/YOUR_PRIVATE_KEY_FILE
 ansible_ssh_public_key_file: ~/.ssh/YOUR_PRIVATE_KEY_FILE.pub
 
+#
+# These should be set to the IP (and port) of whatever machine you want to act
+# as the indexer, and whatever machines will be the forwarders.
+#
+# The reason for listing the forwarders is so that connections from 
+# those IPs will be whitelisted by the Splunk indexer.
+#
+splunk_indexer: "10.0.10.101:9997"
+splunk_forwarders: "10.0.10.102"
+
+
