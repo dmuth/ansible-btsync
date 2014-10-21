@@ -15,7 +15,7 @@
   action: shell dpkg -i /vagrant/splunk.deb creates=/opt/splunk
 
 - name: Copying in script to start Splunk for the first time
-  action: copy src=bin/start_splunk.sh dest=/home/{{user}} owner={{user}}
+  action: copy src=bin/install_splunk.sh dest=/home/{{user}} owner={{user}}
 
 
 #
