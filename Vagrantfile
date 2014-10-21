@@ -1,6 +1,12 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
+#
+# Sample command line for bringing up an instance and configuring it:
+#
+# vagrant destroy -f main && vagrant up main && ./go.sh -i ./inventory/vagrant -l vagrant-btsync-main
+#
+
 Vagrant.configure("2") do |config|
 
 	#
@@ -83,6 +89,9 @@ Vagrant.configure("2") do |config|
 		if Vagrant.has_plugin?("vagrant-vbguest")
 			config.vbguest.auto_update = false
 		end
+
+# TEST
+		host.vm.provision "shell", path: "bin/provision-vagrant.sh"
 
 	end
 
