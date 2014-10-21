@@ -56,6 +56,8 @@ Vagrant.configure("2") do |config|
 			config.vbguest.auto_update = false
 		end
 
+		host.vm.provision "shell", path: "bin/provision-vagrant.sh"
+
 	end
 
 
@@ -90,7 +92,6 @@ Vagrant.configure("2") do |config|
 			config.vbguest.auto_update = false
 		end
 
-# TEST
 		host.vm.provision "shell", path: "bin/provision-vagrant.sh"
 
 	end
