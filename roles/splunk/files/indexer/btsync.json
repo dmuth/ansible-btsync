@@ -1,5 +1,5 @@
 {
-    "modelName": "btsync",
+    "modelName": "bysync",
     "displayName": "btsync",
     "description": "",
     "objectSummary": {
@@ -935,7 +935,7 @@
             "calculations": [],
             "constraints": [
                 {
-                    "search": ": piece 0",
+                    "search": ": \"piece 0 complete\"",
                     "owner": "btsync_event.piece_complete.piece_0"
                 }
             ],

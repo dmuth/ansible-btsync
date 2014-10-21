@@ -52,7 +52,7 @@
   action: file path=/opt/splunk/etc/users/admin/search/local/data/models state=directory
 
 - name: Install btsync.json
-  action: copy src=indexer/btsync.json dest=/opt/splunk/etc/users/admin/search/local/data/models/bysync.json
+  action: copy src=indexer/btsync.json dest=/opt/splunk/etc/users/admin/search/local/data/models/btsync.json
   notify: restart splunk
 
 
