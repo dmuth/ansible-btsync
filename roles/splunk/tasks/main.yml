@@ -21,9 +21,15 @@
 #
 # Start of Splunk config files
 #
-- name: Install web.conf
+- name: Install web.conf for Indexer
   action: copy src=indexer/web.conf dest=/opt/splunk/etc/system/local
   notify: restart splunk
+  when: is_splunk_indexer is defined
+
+- name: Install web.conf for Forwarder
+  action: copy src=forwarder/web.conf dest=/opt/splunk/etc/system/local
+  notify: restart splunk
+  when: is_splunk_forwarder is defined
 
 - name: Install Indexer inputs.conf (this will OFTEN change on indexers
     because of how Splunk stores its SSL passwords in the config file)
