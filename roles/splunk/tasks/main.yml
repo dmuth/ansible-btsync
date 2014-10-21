@@ -2,11 +2,11 @@
 
 - name: Allow port 8000 for Splunk Search Head
   action: ufw to_port=8000 rule=allow
-  when: splunk_forwarders is defined
+  when: is_splunk_indexer is defined
 
 - name: Allow port 9997 for Splunk Indexer
   action: ufw to_port=9997 rule=allow
-  when: splunk_forwarders is defined
+  when: is_splunk_indexer is defined
 
 - name: Set up a symlink from /var/splunk/ to Splunk install
   action: file src=/opt/splunk dest=/var/splunk state=link force=yes
@@ -29,18 +29,18 @@
     because of how Splunk stores its SSL passwords in the config file)
   action: template src=indexer/inputs.conf dest=/opt/splunk/etc/system/local
   notify: restart splunk
-  when: splunk_forwarders is defined
+  when: is_splunk_indexer is defined
 
 - name: Install Forwarder inputs.conf
   action: copy src=forwarder/inputs.conf dest=/opt/splunk/etc/system/local
   notify: restart splunk
-  when: splunk_indexer is defined
+  when: is_splunk_forwarder is defined
 
 - name: Install Forwarder outputs.conf (this will OFTEN change on forwarders
     because of how Splunk stores its SSL passwords in the config file)
   action: template src=forwarder/outputs.conf dest=/opt/splunk/etc/system/local
   notify: restart splunk
-  when: splunk_indexer is defined
+  when: is_splunk_forwarder is defined
 
 - name: Set up users/ directory
   action: file path=/opt/splunk/etc/users/admin/search/local/data/models state=directory

@@ -14,3 +14,6 @@ ansible_ssh_private_key_file: ~/.vagrant.d/insecure_private_key
 #
 ansible_ssh_public_key_file: ~/.vagrant.d/insecure_private_key.pub 
 
+splunk_forwarders: "10.0.10.102"
+splunk_indexer: "10.0.10.101:9997"
+

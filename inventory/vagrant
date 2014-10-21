@@ -3,11 +3,11 @@
 #
 # Our main instance, which runs BitTorrent Sync, the Splunk Indexer and Search Head
 #
-vagrant-btsync-main ansible_ssh_host=10.0.10.101 splunk_forwarders="10.0.10.102"
+vagrant-btsync-main ansible_ssh_host=10.0.10.101 is_splunk_indexer=1
 
 #
 # A second instance, which runs BitTorrent Sync, and a Splunk forwarder.
 #
-vagrant-btsync-forwarder ansible_ssh_host=10.0.10.102 splunk_indexer="10.0.10.101:9997"
+vagrant-btsync-forwarder ansible_ssh_host=10.0.10.102 is_splunk_forwarder=1
 
 
