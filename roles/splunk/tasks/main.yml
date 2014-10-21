@@ -17,6 +17,7 @@
 - name: Copying in script to start Splunk for the first time
   action: copy src=bin/start_splunk.sh dest=/home/{{user}} owner={{user}}
 
+
 #
 # Start of Splunk config files
 #
@@ -24,8 +25,9 @@
   action: copy src=indexer/web.conf dest=/opt/splunk/etc/system/local
   notify: restart splunk
 
-- name: Install Indexer inputs.conf
-  action: copy src=indexer/inputs.conf dest=/opt/splunk/etc/system/local
+- name: Install Indexer inputs.conf (this will OFTEN change on indexers
+    because of how Splunk stores its SSL passwords in the config file)
+  action: template src=indexer/inputs.conf dest=/opt/splunk/etc/system/local
   notify: restart splunk
   when: splunk_forwarders is defined
 
@@ -34,8 +36,9 @@
   notify: restart splunk
   when: splunk_indexer is defined
 
-- name: Install Forwarder outputs.conf
-  action: copy src=forwarder/outputs.conf dest=/opt/splunk/etc/system/local
+- name: Install Forwarder outputs.conf (this will OFTEN change on forwarders
+    because of how Splunk stores its SSL passwords in the config file)
+  action: template src=forwarder/outputs.conf dest=/opt/splunk/etc/system/local
   notify: restart splunk
   when: splunk_indexer is defined
 
