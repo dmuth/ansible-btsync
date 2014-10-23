@@ -11,8 +11,11 @@
 - name: Set up a symlink from /var/splunk/ to Splunk install
   action: file src=/opt/splunk dest=/var/splunk state=link force=yes
 
+- name: Upload Splunk
+  action: copy src=splunk.deb dest=/home/{{user}}/splunk.deb
+
 - name: Install Splunk
-  action: shell dpkg -i /vagrant/splunk.deb creates=/opt/splunk
+  action: shell dpkg -i /home/{{user}}/splunk.deb creates=/opt/splunk
 
 - name: Copying in script to start Splunk for the first time
   action: copy src=bin/install_splunk.sh dest=/home/{{user}} owner={{user}}
