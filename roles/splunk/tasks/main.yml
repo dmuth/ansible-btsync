@@ -54,8 +54,9 @@
 - name: Set up users/ directory
   action: file path=/opt/splunk/etc/users/admin/search/local/data/models state=directory
 
-- name: Install btsync.json
+- name: Install btsync.json on Indexer
   action: copy src=indexer/btsync.json dest=/opt/splunk/etc/users/admin/search/local/data/models/btsync.json
   notify: restart splunk
+  when: is_splunk_indexer is defined
 
 
