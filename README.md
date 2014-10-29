@@ -11,80 +11,40 @@ This project is an Ansible playbook which can be used to set up BitTorrent Sync-
 ## System Requirements
 
 - [Ansible 1.6 or greater](http://www.ansible.com/home) installed on the machine you will be managing instances from
+- [Vagrant](https://www.vagrantup.com/) if you plan on testing this out. (You really should!)
 - Ubuntu 12.04 LTS, 64-bit installed on each instance to manage
+- **(Optional)** [Splunk](http://www.splunk.com/) - Splunk is a platform for collecting and indexing logfiles. Useful for searching through the logs from multiple BitTorrent Sync nodes. I highly recommend it!
 
 
-## Installation
-
-First, set up [Ansible](http://www.ansible.com/home).  
-Details for that are beyond the scope of this document.
-
-
-### First step, getting started with Vagrant
-
-Before trying things out on Digital Ocean, why not test things out in [Vagrant](http://www.vagrantup.com/) first?  The quickest way to get installed with Vagrant is to run the following:
+## Quick Start
 
 `vagrant up && ./go.sh -i ./inventory/vagrant`
+
+This will download an Ubuntu 12.04 LTS image and spin up a virtual machine running it.  Then Ansible is run.
 
 After a few minutes, you'll have a machine running BitTorrent Sync.  You can then access BTSync at `https://localhost:8889/`
 
 
-### Creating Digital Ocean Droplets: The Easy Way
+## Production Usage: Digital Ocean
 
-Create 1 or more Digital Ocean droplets through their admin interface, and note their IPs.  These droplets **must be Ubuntu 12.04 LTS 64-bit**.
-
-Also acceptable is creating an Ubuntu 12.04 LTS instance on your own machine using [Vagrant](http://www.vagrantup.com/)
-
-
-### Creating Ditigital Ocean Droplets: The Way That Scales
-
-1. Install [Tugboat](https://github.com/pearkes/tugboat)
-1. Set up a v1 API key on Digitial Ocean and tell Tugboat about your key by typing `tugboat authorize`.
-1. Run this command: `tugboat create test3 -s 66 -i 3101045 -r 4 -k YOUR_SSH_KEY_ID`
-    - `-s` specifies the size.  66 is the 512 MB instance
-    - `-i` specifies the image.  We're using Ubuntu 12.04 LTS.
-    - `-r` specifies the region. Region 4 is NYC2.
-    - `-k` is your SSH key id. To get a list of your SSH keys, type `tugboat keys`.
-
-Repeat the last step as many times as necessary to create the required number of instances.
-
-
-
-## Configuring a host with our Ansible wrapper
-
-
-### The easy way
-
-This involves running the script `go.sh` and specifying the hosts you created on the command line like this:
-
-`./go.sh --host ip_address:~/.ssh/your_private_key:22`
-
-What that command does is it writes an inventory file that Ansible will use, then run Ansible against that inventory file.
-
-Here's the syntax for that command:
-
-`( ./go.sh -i ./path/to/inventory | --host ip_or_hostname[:ssh_private_key[:ssh_port]] [--host[…]] )`
-
-Multiple hosts may be specified, and if any of the components are left off defaults are assumed.  Here are some examples:
-
-- `./go.sh --host vagrant`
-   - Run Ansible against a vagrant instance. The hostname, port, and SSH keyfile are all set accordingly.
-- `./go.sh --host test:whatever.digitalocean.com:~/.ssh/digital-ocean`
-   - Run Ansible against the Digital Ocean instance you created with the public key you set up for Digital Ocean. (you do use different public keys for different machines, right?)
+- Create 1 or more Digital Ocean droplets through their admin interface, and note their IPs.  These droplets **must be Ubuntu 12.04 LTS 64-bit**.
+- Copy the file `inventory/production.example` to `inventory/production`
+   - Edit this file to include the IP address of each instance and (optionally) whether it is a Splunk indexer or forwarder (more on Splunk later)
+- Copy the file `group_vars/production.example` to `group_vars/production`
+   - Edit this file and include the path to your public and private SSH keys for accessing Digital Ocean
+   - Also include the IP address of the machine used as your Splunk indexer and the IP addresses of your other machines which will be forwarding logs to the indexer.
+       - Again, if you're not familiar with Splunk, don't worry. That part is optional.
+- `./go.sh -i ./inventory/production`
+   - This will run Ansible against all of your Digital Ocean instances.
    
-   
-### The Hard Way
+  
+### Troubleshooting
 
-Copy the file `inventory/production.example` to `inventory/production` or similar.  The file should look like this:
-
-    [production] 
-    # Ubuntu 12.04 x64
-    host1 ansible_ssh_host=IP_ADDRESS ansible_ssh_private_key_file=~/.ssh/YOUR_KEY_FILE
-
-For each Droplet you created, add a line which includes the IP address of that host, and the path to your private key file.
-
-Finally, run the wrapper script: `./go.sh -i ./inventory/production`  
-
+- Use `--list-hosts` to report what machines this command would be 
+- Use `-l` to limit the run to one machine
+- Use `--tags tagname` to restrict Ansible to directives with specific tags set on them.
+   - As of this writing, this is the current list of tags: `btsync, munin, nginx, provider, splunk, ssh, ssl, user`
+ 
 
 ## Success!
 
@@ -138,11 +98,12 @@ After running this playbook against an instance, the following ports will be aff
 
 - **Port 80** - Blocked
 - **Port 443** - Blocked
-- **Port 8000** - SplunkWeb via HTTPS
+- **Port 8000** - SplunkWeb via HTTPS. Only opened up on the Splunk Indexer.
 - **Port 8888** - Blocked. This is the default port that btsync uses, but in plaintext.  Very bad.
 - **Port 8889**
 	- This port is opened by this Ansible playbook.  It speaks HTTPS using a self-signed certificate and proxies to localhost:8888.
 	- This port is also used to access Munin for system stats, at **https://the-hostname-or-ip:8889/munin/**
+- **Port 9997** - Splunk forwarders send their logs to this port. Only opened up on the Splunk Indexer.
 
 
 ## Bonus: Splunk
